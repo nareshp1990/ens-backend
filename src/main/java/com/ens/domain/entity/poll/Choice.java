@@ -1,6 +1,7 @@
 package com.ens.domain.entity.poll;
 
 import com.ens.domain.entity.audit.DateAudit;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,12 +11,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "choices")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Choice extends DateAudit {
 
     @Id
@@ -29,7 +34,10 @@ public class Choice extends DateAudit {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "poll_id", nullable = false)
+    @JsonIgnore
     private Poll poll;
 
-
+    public Choice(String text) {
+        this.text = text;
+    }
 }

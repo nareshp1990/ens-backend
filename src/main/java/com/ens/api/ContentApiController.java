@@ -39,7 +39,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Api(value = "content service", description = "The content service API", tags = {"content"})
 @Slf4j
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/v1/api/content")
 public class ContentApiController {
 
     @Autowired

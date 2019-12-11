@@ -1,7 +1,9 @@
 package com.ens.domain.entity.poll;
 
-import com.ens.domain.entity.audit.DateAudit;
+import com.ens.domain.entity.audit.UserDateAudit;
 import com.ens.domain.entity.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +31,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Data
 @Table(name = "polls")
 @Entity
-public class Poll extends DateAudit {
+public class Poll extends UserDateAudit {
 
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -48,11 +50,13 @@ public class Poll extends DateAudit {
     @Size(min = 2, max = 6)
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 30)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<Choice> choices = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id",nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private User user;
 
     public void addChoice(Choice choice) {

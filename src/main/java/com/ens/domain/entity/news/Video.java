@@ -2,6 +2,7 @@ package com.ens.domain.entity.news;
 
 import com.ens.domain.entity.audit.DateAudit;
 import com.ens.domain.entity.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,6 +34,7 @@ public class Video extends DateAudit {
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "news_item_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private NewsItem newsItem;
 
     @Column(name = "thumbnail_image_url",nullable = false)
@@ -57,6 +59,7 @@ public class Video extends DateAudit {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id",nullable = false)
+    @JsonIgnore
     private User user;
 
 }

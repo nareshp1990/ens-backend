@@ -6,6 +6,7 @@ import com.ens.domain.entity.location.Country;
 import com.ens.domain.entity.location.District;
 import com.ens.domain.entity.location.State;
 import com.ens.domain.entity.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,6 +36,7 @@ public class NewsItemLocation extends DateAudit {
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "news_item_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private NewsItem newsItem;
 
     @Column(name = "is_international")
@@ -42,23 +44,28 @@ public class NewsItemLocation extends DateAudit {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "country_id")
+    @JsonIgnore
     private Country country;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "state_id")
+    @JsonIgnore
     private State state;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "district_id")
+    @JsonIgnore
     private District district;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "area_id")
+    @JsonIgnore
     private Area area;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id",nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private User user;
 
 }

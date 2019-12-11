@@ -2,6 +2,8 @@ package com.ens.domain.entity.news;
 
 import com.ens.domain.entity.audit.DateAudit;
 import com.ens.domain.entity.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -56,36 +58,43 @@ public class NewsItem extends DateAudit {
     @OneToOne(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             mappedBy = "newsItem")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Video video;
 
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "newsItem")
+    @JsonIgnore
     private List<UserLike> userLikes = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "newsItem")
+    @JsonIgnore
     private List<UserUnLike> userUnLikes = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "newsItem")
+    @JsonIgnore
     private List<UserComment> userComments = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             mappedBy = "newsItem")
+    @JsonIgnore
     private NewsItemSocialShare socialShare;
 
     @OneToOne(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             mappedBy = "newsItem")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private NewsItemLocation locationInfo;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id",nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private User user;
 
 }

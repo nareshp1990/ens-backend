@@ -1,4 +1,4 @@
-package com.ens.domain.dto;
+package com.ens.domain.entity.poll;
 
 import java.util.UUID;
 import lombok.AllArgsConstructor;
