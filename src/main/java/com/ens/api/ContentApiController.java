@@ -1,6 +1,6 @@
 package com.ens.api;
 
-import com.ens.domain.request.ContentRequest;
+import com.ens.domain.payload.content.ContentRequest;
 import com.ens.domain.response.ContentMetadata;
 import com.ens.domain.response.ContentResponse;
 import com.ens.service.content.ContentBusinessService;

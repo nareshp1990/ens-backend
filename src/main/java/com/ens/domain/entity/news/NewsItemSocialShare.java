@@ -34,24 +34,27 @@ public class NewsItemSocialShare extends DateAudit {
     private NewsItem newsItem;
 
     @Column(name = "views")
-    private int views;
+    private long views;
 
     @Column(name = "whats_app_shares")
-    private int whatsAppShares;
+    private long whatsAppShares;
 
     @Column(name = "facebook_shares")
-    private int facebookShares;
+    private long facebookShares;
 
     @Column(name = "twitter_shares")
-    private int twitterShares;
+    private long twitterShares;
 
     @Column(name = "instagram_shares")
-    private int instagramShares;
+    private long instagramShares;
 
     @Column(name = "hello_app_shares")
-    private int helloAppShares;
+    private long helloAppShares;
 
     @Column(name = "telegram_shares")
-    private int telegramShares;
+    private long telegramShares;
 
+    public NewsItemSocialShare(NewsItem newsItem) {
+        this.newsItem = newsItem;
+    }
 }

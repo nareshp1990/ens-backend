@@ -7,13 +7,17 @@ import com.ens.domain.entity.location.State;
 import com.ens.domain.entity.news.ActionType;
 import com.ens.domain.entity.news.ContentType;
 import com.ens.domain.entity.news.NewsItem;
+import com.ens.domain.entity.news.NewsItemActionResponse;
 import com.ens.domain.entity.news.NewsItemLocation;
+import com.ens.domain.entity.news.NewsItemResponse;
+import com.ens.domain.entity.news.NewsItemSocialShare;
 import com.ens.domain.entity.news.UserComment;
 import com.ens.domain.entity.news.UserLike;
 import com.ens.domain.entity.news.UserUnLike;
 import com.ens.domain.entity.news.Video;
 import com.ens.domain.entity.user.User;
-import com.ens.domain.payload.news.NewsRequest;
+import com.ens.domain.payload.PagedResponse;
+import com.ens.domain.payload.news.NewsItemRequest;
 import com.ens.domain.payload.news.VideoRequest;
 import com.ens.repo.news.NewsItemRepository;
 import com.ens.repo.news.NewsItemSocialShareRepository;
@@ -26,7 +30,9 @@ import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -77,7 +83,7 @@ public class NewsItemServiceImpl implements NewsItemService {
     }
 
     @Override
-    public void createNews(UUID userId, NewsRequest newsRequest) {
+    public NewsItem createNews(UUID userId, NewsItemRequest newsRequest) {
 
         User user = validationService.validateUser(userId);
 
@@ -124,12 +130,11 @@ public class NewsItemServiceImpl implements NewsItemService {
 
         newsItem.setLocationInfo(newsItemLocation);
 
-        newsItemRepository.save(newsItem);
-
+        return newsItemRepository.save(newsItem);
     }
 
     @Override
-    public void createVideo(UUID userId, VideoRequest videoRequest) {
+    public NewsItem createVideo(UUID userId, VideoRequest videoRequest) {
 
         User user = validationService.validateUser(userId);
 
@@ -187,7 +192,7 @@ public class NewsItemServiceImpl implements NewsItemService {
 
         newsItem.setLocationInfo(newsItemLocation);
 
-        newsItemRepository.save(newsItem);
+        return newsItemRepository.save(newsItem);
     }
 
     @Override
@@ -205,7 +210,7 @@ public class NewsItemServiceImpl implements NewsItemService {
     }
 
     @Override
-    public void postNewsItemAction(UUID userId, UUID newsItemId, ActionType actionType) {
+    public NewsItemActionResponse postNewsItemAction(UUID userId, UUID newsItemId, ActionType actionType) {
 
         User user = validationService.validateUser(userId);
         NewsItem newsItem = validationService.validateNewsItem(newsItemId);
@@ -213,45 +218,86 @@ public class NewsItemServiceImpl implements NewsItemService {
         switch (actionType){
             case LIKE:{
 
-                UserLike userLike = userLikeRepository.findByNewsItemIdAndUserId(newsItemId,userId).orElseGet(UserLike::new);
+                Optional<UserUnLike> userUnLikeOptional = userUnLikeRepository.findByNewsItemIdAndUserId(newsItemId, userId);
+                userUnLikeOptional.ifPresent(userUnLike -> userUnLikeRepository.delete(userUnLike));
 
-                userLike.setUser(user);
-                userLike.setNewsItem(newsItem);
+                UserLike userLike = userLikeRepository.findByNewsItemIdAndUserId(newsItemId,userId).orElseGet(() -> new UserLike(newsItem,user));
 
                 userLikeRepository.save(userLike);
 
             }break;
             case UNLIKE:{
 
-                UserUnLike userUnLike = userUnLikeRepository.findByNewsItemIdAndUserId(newsItemId,userId).orElseGet(UserUnLike::new);
+                Optional<UserLike> userLikeOptional = userLikeRepository.findByNewsItemIdAndUserId(newsItemId, userId);
+                userLikeOptional.ifPresent(userLike -> userLikeRepository.delete(userLike));
 
-                userUnLike.setUser(user);
-                userUnLike.setNewsItem(newsItem);
+                UserUnLike userUnLike = userUnLikeRepository.findByNewsItemIdAndUserId(newsItemId,userId).orElseGet(() -> new UserUnLike(newsItem,user));
 
                 userUnLikeRepository.save(userUnLike);
 
             }break;
+            case VIEW:
+            case WHATSAPP:
+            case FACEBOOK:
+            case TWITTER:
+            case INSTAGRAM:
+            case HELLO_APP:
+            case TELEGRAM:{
+
+                updateNewsItemActions(actionType,newsItem);
+
+            }break;
+
+        }
+
+        return newsItemRepository.getNewsItemActionResponseByNewsItemId(newsItemId).orElseGet(NewsItemActionResponse::new);
+    }
+
+    private void updateNewsItemActions(ActionType actionType,NewsItem newsItem){
+
+        NewsItemSocialShare newsItemSocialShare = newsItemSocialShareRepository.findByNewsItemId(newsItem.getId()).orElseGet(()->new NewsItemSocialShare(newsItem));
+
+        switch (actionType){
             case VIEW:{
-            
+                newsItemSocialShare.setViews(newsItemSocialShare.getViews()+1);
             }break;
             case WHATSAPP:{
+                newsItemSocialShare.setWhatsAppShares(newsItemSocialShare.getWhatsAppShares()+1);
             }break;
             case TWITTER:{
+                newsItemSocialShare.setTwitterShares(newsItemSocialShare.getTwitterShares()+1);
             }break;
             case FACEBOOK:{
+                newsItemSocialShare.setFacebookShares(newsItemSocialShare.getFacebookShares()+1);
             }break;
             case TELEGRAM:{
+                newsItemSocialShare.setTelegramShares(newsItemSocialShare.getTelegramShares()+1);
             }break;
             case HELLO_APP:{
+                newsItemSocialShare.setHelloAppShares(newsItemSocialShare.getHelloAppShares()+1);
             }break;
             case INSTAGRAM:{
+                newsItemSocialShare.setInstagramShares(newsItemSocialShare.getInstagramShares()+1);
             }break;
+            default:break;
         }
+
+        newsItemSocialShareRepository.save(newsItemSocialShare);
 
     }
 
     @Override
-    public void getNewsItems(UUID userId, ContentType contentType, int page, int size) {
+    public PagedResponse<NewsItemResponse> getNewsItems(UUID userId, ContentType contentType, int page, int size) {
 
+        validationService.validatePageNumberAndSize(page,size);
+
+        validationService.validateUser(userId);
+
+        Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "createdAt");
+
+        Page<NewsItemResponse> newsItems = newsItemRepository.getAllNewsItems(userId,contentType, pageable);
+
+        return new PagedResponse<>(newsItems.getContent(), newsItems.getNumber(),
+                newsItems.getSize(), newsItems.getTotalElements(), newsItems.getTotalPages(), newsItems.isLast());
     }
 }

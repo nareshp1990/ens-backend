@@ -12,7 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -20,6 +22,8 @@ import org.hibernate.annotations.OnDeleteAction;
 @Data
 @Table(name = "news_item_user_likes")
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserLike extends DateAudit {
 
     @Id
@@ -40,5 +44,9 @@ public class UserLike extends DateAudit {
     @JsonIgnore
     private User user;
 
+    public UserLike(NewsItem newsItem, User user) {
+        this.newsItem = newsItem;
+        this.user = user;
+    }
 }
 

@@ -4,7 +4,7 @@ import com.ens.config.content.ContentHostProperties;
 import com.ens.config.content.NginxProperties;
 import com.ens.domain.FileProperties;
 import com.ens.domain.entity.content.ContentInfo;
-import com.ens.domain.request.ContentRequest;
+import com.ens.domain.payload.content.ContentRequest;
 import com.ens.domain.response.ContentMetadata;
 import com.ens.domain.response.ContentResponse;
 import com.ens.exception.FileStorageException;

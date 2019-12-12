@@ -1,4 +1,4 @@
-package com.ens.domain.request;
+package com.ens.domain.payload.content;
 
 import javax.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
