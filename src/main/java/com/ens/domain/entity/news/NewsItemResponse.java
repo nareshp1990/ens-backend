@@ -1,15 +1,13 @@
 package com.ens.domain.entity.news;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class NewsItemResponse implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,7 +40,7 @@ public class NewsItemResponse implements Serializable {
     private long twitterShares;
     private long telegramShares;
     
-    private LocalDateTime createdOn;
+    private Instant createdOn;
     private String createdBy;
     private String createdByProfileImageUrl;
 
@@ -52,7 +50,7 @@ public class NewsItemResponse implements Serializable {
             String duration, String size, VideoType videoType, long views, long likes, long unLikes,
             long comments, long whatsAppShares, long facebookShares, long instagramShares,
             long helloAppShares, long twitterShares, long telegramShares,
-            LocalDateTime createdOn, String createdBy, String createdByProfileImageUrl) {
+            Instant createdOn, String createdBy, String createdByProfileImageUrl) {
         this.newsItemId = newsItemId;
         this.headLine = headLine;
         this.description = description;
