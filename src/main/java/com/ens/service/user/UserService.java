@@ -1,11 +1,10 @@
 package com.ens.service.user;
 
 import com.ens.domain.entity.user.User;
-import com.ens.domain.payload.KeyValueHolder;
+import com.ens.domain.payload.user.UserResponse;
 import com.ens.domain.payload.PagedResponse;
 import com.ens.domain.payload.user.UserRequest;
 import com.ens.service.IService;
-import java.util.List;
 import java.util.UUID;
 
 public interface UserService extends IService<User> {
@@ -21,5 +20,7 @@ public interface UserService extends IService<User> {
     User updateUser(UUID userId, UserRequest updateRequest);
 
     User updateUserFCMKey(UUID userId, String fcmKey);
+
+    UserResponse login(String mobileNumber, String password);
 
 }

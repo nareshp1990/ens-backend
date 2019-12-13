@@ -2,10 +2,10 @@ package com.ens.service.user;
 
 import com.ens.domain.entity.user.User;
 import com.ens.domain.entity.user.UserProfile;
+import com.ens.domain.payload.user.UserResponse;
 import com.ens.domain.payload.PagedResponse;
 import com.ens.domain.payload.user.UserRequest;
 import com.ens.exception.BadRequestException;
-import com.ens.exception.ResourceNotFoundException;
 import com.ens.repo.user.UserRepository;
 import com.ens.service.ValidationService;
 import java.util.Optional;
@@ -106,6 +106,28 @@ public class UserServiceImpl implements UserService {
         return save(user);
     }
 
+    @Override
+    public UserResponse login(String mobileNumber, String password) {
+
+        User user = userRepository.findByMobileNumberAndPassword(mobileNumber, password)
+                .orElseThrow(() -> new BadRequestException("UserId or Password incorrect"));
+
+        UserResponse userResponse = new UserResponse();
+        userResponse.setId(user.getId());
+        userResponse.setUserName(user.getUserName());
+        userResponse.setEmail(user.getEmail());
+        userResponse.setMobileNumber(user.getMobileNumber());
+        userResponse.setProfileImageUrl(user.getProfileImageUrl());
+        userResponse.setFcmRegistrationKey(user.getFcmRegistrationKey());
+        userResponse.setGender(user.getUserProfile().getGender());
+        userResponse.setDateOfBirth(user.getUserProfile().getDateOfBirth());
+        userResponse.setCountry(user.getUserProfile().getCountry());
+        userResponse.setState(user.getUserProfile().getState());
+        userResponse.setDistrict(user.getUserProfile().getDistrict());
+        userResponse.setArea(user.getUserProfile().getArea());
+
+        return userResponse;
+    }
 
 
     private User getUserEntity(UserRequest userRequest) {
