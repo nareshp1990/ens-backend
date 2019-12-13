@@ -5,6 +5,7 @@ import com.ens.domain.entity.location.Country;
 import com.ens.domain.entity.location.District;
 import com.ens.domain.entity.location.State;
 import com.ens.domain.entity.user.Gender;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -25,6 +26,7 @@ public class UserResponse implements Serializable {
     private String fcmRegistrationKey;
 
     private Gender gender;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
     private Country country;
     private State state;

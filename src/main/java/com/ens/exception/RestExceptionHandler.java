@@ -2,6 +2,8 @@ package com.ens.exception;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import javax.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -217,6 +219,33 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
         return new ResponseEntity<>(apiError, apiError.getStatus());
+    }
+
+    @ExceptionHandler(AuthException.class)
+    public final ResponseEntity<Object> handleAuthException(Exception ex, WebRequest request) {
+        log.error("RestExceptionHandler : {}", ex);
+        ApiError apiError = new ApiError(UNAUTHORIZED);
+        apiError.setMessage(ex.getMessage());
+        apiError.setDebugMessage(ex.getLocalizedMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler({ResourceNotFoundException.class,ContentNotFoundException.class})
+    public final ResponseEntity<Object> handleResourceException(Exception ex, WebRequest request) {
+        log.error("RestExceptionHandler : {}", ex);
+        ApiError apiError = new ApiError(NOT_FOUND);
+        apiError.setMessage(ex.getMessage());
+        apiError.setDebugMessage(ex.getLocalizedMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public final ResponseEntity<Object> handleBadRequestException(Exception ex, WebRequest request) {
+        log.error("RestExceptionHandler : {}", ex);
+        ApiError apiError = new ApiError(BAD_REQUEST);
+        apiError.setMessage(ex.getMessage());
+        apiError.setDebugMessage(ex.getLocalizedMessage());
+        return buildResponseEntity(apiError);
     }
 
 }

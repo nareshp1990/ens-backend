@@ -1,0 +1,32 @@
+# Http-Method
+POST
+
+# API URL : /v1/api/auth/login
+http://localhost:9191/v1/api/auth/login
+&mobileNumber=7799006116&password=Naresh
+%%%
+
+# Duration: 115 ms
+# URL: http://localhost:9191/v1/api/auth/login?&mobileNumber=7799006116&password=Naresh
+
+# HTTP/1.1 200
+
+@Vary: Origin
+@Vary: Access-Control-Request-Method
+@Vary: Access-Control-Request-Headers
+@Content-Type: application/json
+@Transfer-Encoding: chunked
+@Date: Fri, 13 Dec 2019 18:15:43 GMT
+@Keep-Alive: timeout=60
+@Connection: keep-alive
+
+{
+  "id": "244d5bdf-904c-43f1-9781-c5d8b19821ed",
+  "userName": "Naresh Patchipulusu",
+  "email": "patchipulusu.naresh@gmail.com",
+  "mobileNumber": "7799006116",
+  "profileImageUrl": "https://picsum.photos/id/1005/5760/3840",
+  "fcmRegistrationKey": "",
+  "gender": "MALE",
+  "dateOfBirth": "1990-11-09"
+}

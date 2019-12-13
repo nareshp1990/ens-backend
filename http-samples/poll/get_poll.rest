@@ -1,0 +1,59 @@
+# Http-Method
+GET
+
+# API URL : /v1/api/polls/{userId}/{pollId}
+#http://localhost:9191/v1/api/polls/244d5bdf-904c-43f1-9781-c5d8b19821ed/350dd452-8b16-4294-aa46-d783be39eedd
+http://localhost:9191/v1/api/polls/244d5bdf-904c-43f1-9781-c5d8b19821ed/970b4ac6-0b2d-4ac6-8df1-40553aaf65ce
+
+%%%
+
+# Duration: 136 ms
+# URL: http://localhost:9191/v1/api/polls/244d5bdf-904c-43f1-9781-c5d8b19821ed/970b4ac6-0b2d-4ac6-8df1-40553aaf65ce
+
+# HTTP/1.1 200
+
+@Vary: Origin
+@Vary: Access-Control-Request-Method
+@Vary: Access-Control-Request-Headers
+@Content-Type: application/json
+@Transfer-Encoding: chunked
+@Date: Fri, 13 Dec 2019 18:27:58 GMT
+@Keep-Alive: timeout=60
+@Connection: keep-alive
+
+{
+  "id": "970b4ac6-0b2d-4ac6-8df1-40553aaf65ce",
+  "question": "When would you purchase a DVD player if you have already own one?",
+  "choices": [
+    {
+      "id": "7731bb4a-0170-429d-9737-28015e0be2a5",
+      "text": "In the next 6 months",
+      "voteCount": 0
+    },
+    {
+      "id": "8eced602-c8ca-4f5c-bd52-6668bb5b7ed4",
+      "text": "Already own a DVD player",
+      "voteCount": 0
+    },
+    {
+      "id": "b2016d22-52ff-488f-82b6-37540c28ac9d",
+      "text": "Within 2 years",
+      "voteCount": 0
+    },
+    {
+      "id": "bee5b212-8f55-40ce-80a8-f957a1515288",
+      "text": "Within 1 year",
+      "voteCount": 0
+    }
+  ],
+  "createdBy": {
+    "id": "244d5bdf-904c-43f1-9781-c5d8b19821ed",
+    "username": "Naresh Patchipulusu",
+    "email": "patchipulusu.naresh@gmail.com",
+    "profileImageUrl": "https://picsum.photos/id/1005/5760/3840"
+  },
+  "creationDateTime": 1576261655.000000000,
+  "expirationDateTime": 1576816055.000000000,
+  "isExpired": false,
+  "totalVotes": 0
+}

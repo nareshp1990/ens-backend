@@ -1,0 +1,139 @@
+# Http-Method
+GET
+
+# API URL : /v1/api/polls/{userId}
+http://localhost:9191/v1/api/polls/244d5bdf-904c-43f1-9781-c5d8b19821ed
+%%%
+
+# Duration: 137 ms
+# URL: http://localhost:9191/v1/api/polls/244d5bdf-904c-43f1-9781-c5d8b19821ed
+
+# HTTP/1.1 200
+
+@Vary: Origin
+@Vary: Access-Control-Request-Method
+@Vary: Access-Control-Request-Headers
+@Content-Type: application/json
+@Transfer-Encoding: chunked
+@Date: Fri, 13 Dec 2019 18:34:40 GMT
+@Keep-Alive: timeout=60
+@Connection: keep-alive
+
+{
+  "content": [
+    {
+      "id": "970b4ac6-0b2d-4ac6-8df1-40553aaf65ce",
+      "question": "When would you purchase a DVD player if you have already own one?",
+      "choices": [
+        {
+          "id": "7731bb4a-0170-429d-9737-28015e0be2a5",
+          "text": "In the next 6 months",
+          "voteCount": 1
+        },
+        {
+          "id": "8eced602-c8ca-4f5c-bd52-6668bb5b7ed4",
+          "text": "Already own a DVD player",
+          "voteCount": 0
+        },
+        {
+          "id": "b2016d22-52ff-488f-82b6-37540c28ac9d",
+          "text": "Within 2 years",
+          "voteCount": 0
+        },
+        {
+          "id": "bee5b212-8f55-40ce-80a8-f957a1515288",
+          "text": "Within 1 year",
+          "voteCount": 0
+        }
+      ],
+      "createdBy": {
+        "id": "244d5bdf-904c-43f1-9781-c5d8b19821ed",
+        "username": "Naresh Patchipulusu",
+        "email": "patchipulusu.naresh@gmail.com",
+        "profileImageUrl": "https://picsum.photos/id/1005/5760/3840"
+      },
+      "creationDateTime": 1576261655.000000000,
+      "expirationDateTime": 1576816055.000000000,
+      "isExpired": false,
+      "selectedChoice": "7731bb4a-0170-429d-9737-28015e0be2a5",
+      "totalVotes": 1
+    },
+    {
+      "id": "be93d07c-08ff-4969-b911-63af40257203",
+      "question": "When would you purchase a DVD player if you have already own one?",
+      "choices": [
+        {
+          "id": "6342d45c-d0c3-41cd-ba23-05a581beb8a7",
+          "text": "Already own a DVD player",
+          "voteCount": 0
+        },
+        {
+          "id": "6ab36875-1483-420f-a456-85d0c7b38cb3",
+          "text": "Within 1 year",
+          "voteCount": 0
+        },
+        {
+          "id": "7803f7ce-5e9d-4c4b-8cb4-97261c54c72e",
+          "text": "In the next 6 months",
+          "voteCount": 0
+        },
+        {
+          "id": "bd298b32-0fa9-492b-97be-0e301ea5ec91",
+          "text": "Within 2 years",
+          "voteCount": 0
+        }
+      ],
+      "createdBy": {
+        "id": "244d5bdf-904c-43f1-9781-c5d8b19821ed",
+        "username": "Naresh Patchipulusu",
+        "email": "patchipulusu.naresh@gmail.com",
+        "profileImageUrl": "https://picsum.photos/id/1005/5760/3840"
+      },
+      "creationDateTime": 1576261573.000000000,
+      "expirationDateTime": 1576815973.000000000,
+      "isExpired": false,
+      "totalVotes": 0
+    },
+    {
+      "id": "350dd452-8b16-4294-aa46-d783be39eedd",
+      "question": "When would you purchase a DVD player if you don't already own one?",
+      "choices": [
+        {
+          "id": "0bd675a1-06d3-450b-962f-0236b7f3ba7a",
+          "text": "In the next 6 months",
+          "voteCount": 0
+        },
+        {
+          "id": "6dc852ce-3254-4610-9987-1ea43c2ac7a0",
+          "text": "Within 2 years",
+          "voteCount": 0
+        },
+        {
+          "id": "9964bee0-584c-4623-bba3-bcc9b12bbfb7",
+          "text": "Within 1 year",
+          "voteCount": 0
+        },
+        {
+          "id": "c2c24baa-32db-49c0-88f8-005ba88f5900",
+          "text": "Already own a DVD player",
+          "voteCount": 0
+        }
+      ],
+      "createdBy": {
+        "id": "244d5bdf-904c-43f1-9781-c5d8b19821ed",
+        "username": "Naresh Patchipulusu",
+        "email": "patchipulusu.naresh@gmail.com",
+        "profileImageUrl": "https://picsum.photos/id/1005/5760/3840"
+      },
+      "creationDateTime": 1576261302.000000000,
+      "expirationDateTime": 1576815701.000000000,
+      "isExpired": false,
+      "totalVotes": 0
+    }
+  ],
+  "page": 0,
+  "size": 30,
+  "totalElements": 3,
+  "totalPages": 1,
+  "last": true
+}

@@ -2,9 +2,10 @@ package com.ens.service.user;
 
 import com.ens.domain.entity.user.User;
 import com.ens.domain.entity.user.UserProfile;
-import com.ens.domain.payload.user.UserResponse;
 import com.ens.domain.payload.PagedResponse;
 import com.ens.domain.payload.user.UserRequest;
+import com.ens.domain.payload.user.UserResponse;
+import com.ens.exception.AuthException;
 import com.ens.exception.BadRequestException;
 import com.ens.repo.user.UserRepository;
 import com.ens.service.ValidationService;
@@ -109,8 +110,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse login(String mobileNumber, String password) {
 
-        User user = userRepository.findByMobileNumberAndPassword(mobileNumber, password)
-                .orElseThrow(() -> new BadRequestException("UserId or Password incorrect"));
+        User user = userRepository.findByMobileNumberAndPassword(mobileNumber, password).orElseThrow(() -> new AuthException("UserId or Password incorrect"));
 
         UserResponse userResponse = new UserResponse();
         userResponse.setId(user.getId());
