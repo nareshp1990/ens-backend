@@ -1,0 +1,30 @@
+# Http-Method
+GET
+
+# API URL : /v1/api/locations/{userId}/countries
+http://localhost:9191/v1/api/locations/244d5bdf-904c-43f1-9781-c5d8b19821ed/countries
+
+%%%
+
+# Duration: 286 ms
+# URL: http://localhost:9191/v1/api/locations/244d5bdf-904c-43f1-9781-c5d8b19821ed/countries
+
+# HTTP/1.1 200
+
+@Vary: Origin
+@Vary: Access-Control-Request-Method
+@Vary: Access-Control-Request-Headers
+@Content-Type: application/json
+@Transfer-Encoding: chunked
+@Date: Fri, 13 Dec 2019 17:42:44 GMT
+@Keep-Alive: timeout=60
+@Connection: keep-alive
+
+[
+  {
+    "createdAt": "2019-12-13 23:11:48",
+    "updatedAt": "2019-12-13 23:11:48",
+    "id": "7001f768-a24d-4654-aa18-d0de157e7457",
+    "countryName": "India"
+  }
+]

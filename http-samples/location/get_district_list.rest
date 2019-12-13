@@ -1,0 +1,102 @@
+# Http-Method
+GET
+
+# API URL : /v1/api/locations/{userId}/districts/{stateId}
+http://localhost:9191/v1/api/locations/244d5bdf-904c-43f1-9781-c5d8b19821ed/districts/cea1445a-7fbf-4ba5-9a64-5b7b18de63a4
+
+%%%
+
+# Duration: 71 ms
+# URL: http://localhost:9191/v1/api/locations/244d5bdf-904c-43f1-9781-c5d8b19821ed/districts/cea1445a-7fbf-4ba5-9a64-5b7b18de63a4
+
+# HTTP/1.1 200
+
+@Vary: Origin
+@Vary: Access-Control-Request-Method
+@Vary: Access-Control-Request-Headers
+@Content-Type: application/json
+@Transfer-Encoding: chunked
+@Date: Fri, 13 Dec 2019 17:53:13 GMT
+@Keep-Alive: timeout=60
+@Connection: keep-alive
+
+[
+  {
+    "createdAt": "2019-12-13 23:21:18",
+    "updatedAt": "2019-12-13 23:21:18",
+    "id": "019e1a9e-d7fd-4ff1-ac08-e10244bb9a49",
+    "districtName": "East Godavari"
+  },
+  {
+    "createdAt": "2019-12-13 23:21:18",
+    "updatedAt": "2019-12-13 23:21:18",
+    "id": "3db007f8-6c0a-47d8-8b86-cc6b330c64b2",
+    "districtName": "Kurnool"
+  },
+  {
+    "createdAt": "2019-12-13 23:21:18",
+    "updatedAt": "2019-12-13 23:21:18",
+    "id": "3e6170c3-6f2c-4bad-a2fa-388351da2e97",
+    "districtName": "Srikakulam"
+  },
+  {
+    "createdAt": "2019-12-13 23:21:18",
+    "updatedAt": "2019-12-13 23:21:18",
+    "id": "773fdae2-330c-49e3-a42c-b5551caf595d",
+    "districtName": "Prakasam"
+  },
+  {
+    "createdAt": "2019-12-13 23:21:18",
+    "updatedAt": "2019-12-13 23:21:18",
+    "id": "78e15b23-bc0f-4ca5-8368-9c4f1b1cc912",
+    "districtName": "Nellore"
+  },
+  {
+    "createdAt": "2019-12-13 23:21:18",
+    "updatedAt": "2019-12-13 23:21:18",
+    "id": "7e94b84e-3dc4-4dd3-97c4-6ff6339d007e",
+    "districtName": "Vizianagaram"
+  },
+  {
+    "createdAt": "2019-12-13 23:21:18",
+    "updatedAt": "2019-12-13 23:21:18",
+    "id": "86d916a8-3185-4b01-b9b5-1eb6d441c798",
+    "districtName": "Kadapa"
+  },
+  {
+    "createdAt": "2019-12-13 23:21:18",
+    "updatedAt": "2019-12-13 23:21:18",
+    "id": "baf3613a-8cc7-49de-ab25-bae4891505c7",
+    "districtName": "Anantapur"
+  },
+  {
+    "createdAt": "2019-12-13 23:21:18",
+    "updatedAt": "2019-12-13 23:21:18",
+    "id": "c86b11e8-1a59-4c3c-8d06-4d5f36f1a464",
+    "districtName": "Visakhapatnam"
+  },
+  {
+    "createdAt": "2019-12-13 23:21:18",
+    "updatedAt": "2019-12-13 23:21:18",
+    "id": "dcf02f76-8f62-4e4b-b08a-1b1413380f18",
+    "districtName": "Guntur"
+  },
+  {
+    "createdAt": "2019-12-13 23:21:18",
+    "updatedAt": "2019-12-13 23:21:18",
+    "id": "ec4c0ea0-9f8f-4f5e-8fc0-abd403bdc199",
+    "districtName": "Krishna"
+  },
+  {
+    "createdAt": "2019-12-13 23:21:18",
+    "updatedAt": "2019-12-13 23:21:18",
+    "id": "fad931cc-b5ba-4215-8873-6e83e96b2fcc",
+    "districtName": "West Godavari"
+  },
+  {
+    "createdAt": "2019-12-13 23:21:18",
+    "updatedAt": "2019-12-13 23:21:18",
+    "id": "fba08718-d4cb-45d4-b835-38ee748963d7",
+    "districtName": "Chittoor"
+  }
+]

@@ -6,6 +6,7 @@ import com.ens.domain.entity.location.Country;
 import com.ens.domain.entity.location.District;
 import com.ens.domain.entity.location.State;
 import com.ens.domain.payload.user.UserViews.Public;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import java.time.LocalDate;
@@ -48,34 +49,35 @@ public class UserProfile extends DateAudit {
     @Column(name = "gender", length = 10)
     private Gender gender;
 
+    @JsonFormat(pattern="yyyy-MM-dd")
     @JsonView(Public.class)
     @Column(name = "dob")
     private LocalDate dateOfBirth;
 
     @JsonView(Public.class)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "country_id")
+    @JoinColumn(name = "country_id",nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Country country;
 
     @JsonView(Public.class)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "state_id")
+    @JoinColumn(name = "state_id",nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private State state;
 
     @JsonView(Public.class)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "district_id")
+    @JoinColumn(name = "district_id",nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private District district;
 
     @JsonView(Public.class)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "area_id")
+    @JoinColumn(name = "area_id",nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Area area;

@@ -1,0 +1,48 @@
+# Http-Method
+GET
+
+# API URL : /v1/api/users
+http://localhost:9191/v1/api/users
+%%%
+
+# Duration: 397 ms
+# URL: http://localhost:9191/v1/api/users
+
+# HTTP/1.1 200
+
+@Vary: Origin
+@Vary: Access-Control-Request-Method
+@Vary: Access-Control-Request-Headers
+@Content-Type: application/json
+@Transfer-Encoding: chunked
+@Date: Fri, 13 Dec 2019 17:35:30 GMT
+@Keep-Alive: timeout=60
+@Connection: keep-alive
+
+{
+  "content": [
+    {
+      "createdAt": "2019-12-13 22:58:39",
+      "updatedAt": "2019-12-13 22:58:39",
+      "id": "244d5bdf-904c-43f1-9781-c5d8b19821ed",
+      "userName": "Naresh Patchipulusu",
+      "password": "Naresh",
+      "email": "patchipulusu.naresh@gmail.com",
+      "mobileNumber": "7799006116",
+      "profileImageUrl": "https://picsum.photos/id/1005/5760/3840",
+      "fcmRegistrationKey": "",
+      "userProfile": {
+        "createdAt": "2019-12-13 22:58:39",
+        "updatedAt": "2019-12-13 22:58:39",
+        "id": "9f3b8d18-bbe5-407e-91cb-d48494bfb0d4",
+        "gender": "MALE",
+        "dateOfBirth": "1990-11-09"
+      }
+    }
+  ],
+  "page": 0,
+  "size": 30,
+  "totalElements": 1,
+  "totalPages": 1,
+  "last": true
+}

@@ -46,7 +46,7 @@ public class UserApiController {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{userId}")
                 .buildAndExpand(user.getId()).toUri();
 
-        return ResponseEntity.created(location).body(new ApiResponse(true, "User Created Successfully"));
+        return ResponseEntity.created(location).body(new ApiResponse(user.getId(),true, "User Created Successfully"));
     }
 
     @ApiOperation(value = "update user", tags = {"user"}, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -58,7 +58,7 @@ public class UserApiController {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{userId}")
                 .buildAndExpand(user.getId()).toUri();
 
-        return ResponseEntity.created(location).body(new ApiResponse(true, "User Updated Successfully"));
+        return ResponseEntity.created(location).body(new ApiResponse(user.getId(),true, "User Updated Successfully"));
     }
 
     @ApiOperation(value = "get all users", tags = {"user"}, produces = MediaType.APPLICATION_JSON_VALUE)
