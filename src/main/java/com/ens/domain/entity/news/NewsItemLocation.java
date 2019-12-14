@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -25,6 +26,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Data
 @Table(name = "news_item_location")
 @Entity
+@NoArgsConstructor
 public class NewsItemLocation extends DateAudit {
 
     @Id
@@ -43,22 +45,22 @@ public class NewsItemLocation extends DateAudit {
     private boolean isInternational;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "country_id")
+    @JoinColumn(name = "country_id",columnDefinition = "BINARY(16) default NULL")
     @JsonIgnore
     private Country country;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "state_id")
+    @JoinColumn(name = "state_id",columnDefinition = "BINARY(16) default NULL")
     @JsonIgnore
     private State state;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "district_id")
+    @JoinColumn(name = "district_id",columnDefinition = "BINARY(16) default NULL")
     @JsonIgnore
     private District district;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "area_id")
+    @JoinColumn(name = "area_id",columnDefinition = "BINARY(16) default NULL")
     @JsonIgnore
     private Area area;
 

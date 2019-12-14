@@ -1,0 +1,29 @@
+# Http-Method
+POST
+
+# API URL : /v1/api/news/{userId}/{newsItemId}/comment
+http://localhost:9191/v1/api/news/244d5bdf-904c-43f1-9781-c5d8b19821ed/1630dcb4-f13c-42f7-a40a-cc40c02be2e3/comment
+&comment=This is looks good
+
+
+
+%%%
+
+# Duration: 206 ms
+# URL: http://localhost:9191/v1/api/news/244d5bdf-904c-43f1-9781-c5d8b19821ed/1630dcb4-f13c-42f7-a40a-cc40c02be2e3/comment?&comment=This+is+looks+good
+
+# HTTP/1.1 200
+
+@Vary: Origin
+@Vary: Access-Control-Request-Method
+@Vary: Access-Control-Request-Headers
+@Content-Type: application/json
+@Transfer-Encoding: chunked
+@Date: Sat, 14 Dec 2019 07:19:34 GMT
+@Keep-Alive: timeout=60
+@Connection: keep-alive
+
+{
+  "success": true,
+  "message": "Updated Successfully"
+}

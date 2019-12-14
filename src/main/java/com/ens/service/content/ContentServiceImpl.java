@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ContentServiceImpl implements ContentService {
@@ -19,6 +20,7 @@ public class ContentServiceImpl implements ContentService {
     /**
      *
      */
+     @Transactional
     @Override
     public ContentInfo save(ContentInfo contentInfo) {
         return contentRepository.save(contentInfo);
@@ -56,6 +58,7 @@ public class ContentServiceImpl implements ContentService {
         return contentRepository.findAll(pgbl);
     }
 
+    @Transactional
     @Override
     public void deleteContent(String userId, String filePath, String fileName) {
         contentRepository.deleteContent(userId, filePath, fileName);

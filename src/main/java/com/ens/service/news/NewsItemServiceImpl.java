@@ -34,6 +34,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -82,6 +83,7 @@ public class NewsItemServiceImpl implements NewsItemService {
         return newsItemRepository.findAll(pgbl);
     }
 
+    @Transactional
     @Override
     public NewsItem createNews(UUID userId, NewsItemRequest newsRequest) {
 
@@ -133,6 +135,7 @@ public class NewsItemServiceImpl implements NewsItemService {
         return newsItemRepository.save(newsItem);
     }
 
+    @Transactional
     @Override
     public NewsItem createVideo(UUID userId, VideoRequest videoRequest) {
 
@@ -195,6 +198,7 @@ public class NewsItemServiceImpl implements NewsItemService {
         return newsItemRepository.save(newsItem);
     }
 
+    @Transactional
     @Override
     public void postComment(UUID userId, UUID newsItemId, String comment) {
 
@@ -209,6 +213,7 @@ public class NewsItemServiceImpl implements NewsItemService {
         userCommentRepository.save(userComment);
     }
 
+    @Transactional
     @Override
     public NewsItemActionResponse postNewsItemAction(UUID userId, UUID newsItemId, ActionType actionType) {
 
@@ -286,6 +291,7 @@ public class NewsItemServiceImpl implements NewsItemService {
 
     }
 
+    @Transactional(readOnly = true)
     @Override
     public PagedResponse<NewsItemResponse> getNewsItems(UUID userId, ContentType contentType, int page, int size) {
 
@@ -293,9 +299,9 @@ public class NewsItemServiceImpl implements NewsItemService {
 
         validationService.validateUser(userId);
 
-        Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "createdAt");
+        Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "created_at");
 
-        Page<NewsItemResponse> newsItems = newsItemRepository.getAllNewsItems(userId,contentType, pageable);
+        Page<NewsItemResponse> newsItems = newsItemRepository.getAllNewsItems(contentType.name(),pageable);
 
         return new PagedResponse<>(newsItems.getContent(), newsItems.getNumber(),
                 newsItems.getSize(), newsItems.getTotalElements(), newsItems.getTotalPages(), newsItems.isLast());

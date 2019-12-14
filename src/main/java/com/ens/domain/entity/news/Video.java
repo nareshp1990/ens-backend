@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -23,6 +24,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Data
 @Table(name = "news_item_video")
 @Entity
+@NoArgsConstructor
 public class Video extends DateAudit {
 
     @Id

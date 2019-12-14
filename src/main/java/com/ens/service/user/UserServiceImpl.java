@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -54,6 +55,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll(pgbl);
     }
 
+    @Transactional
     @Override
     public User createUser(UserRequest userRequest) {
 
@@ -64,6 +66,7 @@ public class UserServiceImpl implements UserService {
         return save(userEntity);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public PagedResponse<User> getAllUsers(int page, int size) {
 
@@ -83,12 +86,14 @@ public class UserServiceImpl implements UserService {
         return validationService.validateUser(userId);
     }
 
+    @Transactional
     @Override
     public void deleteUserById(UUID userId) {
         validationService.validateUser(userId);
         userRepository.deleteById(userId);
     }
 
+    @Transactional
     @Override
     public User updateUser(UUID userId, UserRequest updateRequest) {
 
@@ -97,6 +102,7 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Transactional
     @Override
     public User updateUserFCMKey(UUID userId, String fcmKey) {
 
@@ -107,6 +113,7 @@ public class UserServiceImpl implements UserService {
         return save(user);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public UserResponse login(String mobileNumber, String password) {
 

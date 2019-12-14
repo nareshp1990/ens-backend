@@ -33,6 +33,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -55,6 +56,7 @@ public class PollServiceImpl implements PollService {
         return pollRepository.save(poll);
     }
 
+    @Transactional
     @Override
     public void delete(UUID pollId) {
         pollRepository.findById(pollId).orElseThrow(() -> new ResourceNotFoundException("Poll","id",pollId));
@@ -76,6 +78,7 @@ public class PollServiceImpl implements PollService {
         return pollRepository.findAll(pgbl);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public PagedResponse<PollResponse> getAllPolls(UUID userId, int page, int size) {
 
@@ -106,6 +109,7 @@ public class PollServiceImpl implements PollService {
                 polls.getSize(), polls.getTotalElements(), polls.getTotalPages(), polls.isLast());
     }
 
+    @Transactional
     @Override
     public Poll createPoll(PollRequest pollRequest, UUID userId) {
 
@@ -131,6 +135,7 @@ public class PollServiceImpl implements PollService {
         return pollRepository.save(poll);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public PollResponse getPollById(UUID pollId, UUID userId) {
 
@@ -157,6 +162,7 @@ public class PollServiceImpl implements PollService {
                 creator, userVote != null ? userVote.getChoice().getId(): null);
     }
 
+    @Transactional
     @Override
     public PollResponse castVoteAndGetUpdatedPoll(UUID pollId, VoteRequest voteRequest, UUID userId) {
 

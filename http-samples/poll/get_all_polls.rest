@@ -5,7 +5,7 @@ GET
 http://localhost:9191/v1/api/polls/244d5bdf-904c-43f1-9781-c5d8b19821ed
 %%%
 
-# Duration: 137 ms
+# Duration: 215 ms
 # URL: http://localhost:9191/v1/api/polls/244d5bdf-904c-43f1-9781-c5d8b19821ed
 
 # HTTP/1.1 200
@@ -15,7 +15,7 @@ http://localhost:9191/v1/api/polls/244d5bdf-904c-43f1-9781-c5d8b19821ed
 @Vary: Access-Control-Request-Headers
 @Content-Type: application/json
 @Transfer-Encoding: chunked
-@Date: Fri, 13 Dec 2019 18:34:40 GMT
+@Date: Sat, 14 Dec 2019 12:43:53 GMT
 @Keep-Alive: timeout=60
 @Connection: keep-alive
 

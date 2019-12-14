@@ -22,6 +22,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -29,6 +30,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Data
 @Table(name = "news_item")
 @Entity
+@NoArgsConstructor
 public class NewsItem extends DateAudit {
 
     @Id
@@ -44,7 +46,7 @@ public class NewsItem extends DateAudit {
     @Column(name = "description",nullable = false)
     private String description;
 
-    @Column(name = "image_url",nullable = false)
+    @Column(name = "image_url",nullable = true, columnDefinition = "varchar(255) default NULL")
     private String imageUrl;
 
     @Enumerated(EnumType.STRING)

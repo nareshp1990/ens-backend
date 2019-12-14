@@ -1,0 +1,50 @@
+# Http-Method
+POST
+
+# API URL : /v1/api/news/{userId}/video
+http://localhost:9191/v1/api/news/244d5bdf-904c-43f1-9781-c5d8b19821ed/video
+
+# Http Request Headers
+@Content-Type: application/json
+
+# Request Body
+
+{
+  "thumbnailImageUrl": "https://picsum.photos/536/354",
+  "videoUrl": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+  "youtubeVideoId": "",
+  "duration": "",
+  "imageUrl": "",
+  "size": "",
+  "videoType": "NORMAL",
+  "headLine": "Big Buck Bunny",
+  "description": "Big Buck Bunny tells the story of a giant rabbit with a heart bigger than himself. When one sunny day three rodents rudely harass him, something snaps... and the rabbit ain't no bunny anymore! In the typical cartoon tradition he prepares the nasty rodents a comical revenge.\n\nLicensed under the Creative Commons Attribution license\nhttp://www.bigbuckbunny.org",
+  "contentType": "VIDEO",
+  "newsType": "NEWS",
+  "isInternational": false,
+  "countryId": null,
+  "stateId": null,
+  "districtId": null,
+  "areaId": null
+}
+%%%
+
+# Duration: 219 ms
+# URL: http://localhost:9191/v1/api/news/244d5bdf-904c-43f1-9781-c5d8b19821ed/video
+
+# HTTP/1.1 200
+
+@Vary: Origin
+@Vary: Access-Control-Request-Method
+@Vary: Access-Control-Request-Headers
+@Content-Type: application/json
+@Transfer-Encoding: chunked
+@Date: Sat, 14 Dec 2019 07:23:31 GMT
+@Keep-Alive: timeout=60
+@Connection: keep-alive
+
+{
+  "id": "69a76cd8-ab31-4a7f-a83c-438804c45b64",
+  "success": true,
+  "message": "Created Successfully"
+}

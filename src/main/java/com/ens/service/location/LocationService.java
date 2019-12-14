@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -45,6 +46,7 @@ public class LocationService {
     @Autowired
     private ValidationService validationService;
 
+    @Transactional
     public void save(CountryRequest countryRequest,UUID userId){
 
         User user = validationService.validateUser(userId);
@@ -59,6 +61,7 @@ public class LocationService {
         return countryRepository.findAll();
     }
 
+    @Transactional
     public void save(StateRequest stateRequest,UUID userId){
         User user = validationService.validateUser(userId);
         Country country = countryRepository.findById(stateRequest.getCountryId()).orElseThrow(() -> new ResourceNotFoundException());
@@ -72,6 +75,7 @@ public class LocationService {
         return stateRepository.findByCountryId(countryId);
     }
 
+    @Transactional
     public void save(DistrictRequest districtRequest, UUID userId){
         User user = validationService.validateUser(userId);
         Country country = countryRepository.findById(districtRequest.getCountryId()).orElseThrow(() -> new ResourceNotFoundException());
@@ -86,6 +90,7 @@ public class LocationService {
         return districtRepository.findByStateId(stateId);
     }
 
+    @Transactional
     public void save(AreaRequest areaRequest, UUID userId){
         User user = validationService.validateUser(userId);
         Country country = countryRepository.findById(areaRequest.getCountryId()).orElseThrow(() -> new ResourceNotFoundException());
