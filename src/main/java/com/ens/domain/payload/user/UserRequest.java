@@ -3,6 +3,7 @@ package com.ens.domain.payload.user;
 import com.ens.domain.entity.user.Gender;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -31,10 +32,10 @@ public class UserRequest implements Serializable{
     @Valid
     private LocalDate dateOfBirth;
 
-    private String country;
-    private String state;
-    private String district;
-    private String area;
+    private UUID countryId;
+    private UUID stateId;
+    private UUID districtId;
+    private UUID areaId;
 
 
 }

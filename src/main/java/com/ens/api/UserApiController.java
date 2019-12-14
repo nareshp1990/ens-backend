@@ -72,7 +72,7 @@ public class UserApiController {
     }
 
     @ApiOperation(value = "get user by id", tags = {"user"}, produces = MediaType.APPLICATION_JSON_VALUE)
-    @GetMapping(value = "/userId")
+    @GetMapping(value = "/{userId}")
     public ResponseEntity<User> getUser(@PathVariable UUID userId){
         return ResponseEntity.ok(userService.getUserById(userId));
     }

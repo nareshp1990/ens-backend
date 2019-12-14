@@ -3,6 +3,7 @@ package com.ens.domain.payload.poll;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,7 @@ public class PollResponse implements Serializable{
     private String question;
     private List<ChoiceResponse> choices;
     private UserSummary createdBy;
-    private Instant creationDateTime;
+    private LocalDateTime creationDateTime;
     private Instant expirationDateTime;
     private Boolean isExpired;
 

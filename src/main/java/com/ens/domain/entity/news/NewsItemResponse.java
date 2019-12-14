@@ -1,6 +1,6 @@
 package com.ens.domain.entity.news;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public interface NewsItemResponse {
@@ -30,7 +30,7 @@ public interface NewsItemResponse {
     Long getTwitterShares();
     Long getTelegramShares();
 
-    Instant getCreatedOn();
+    LocalDateTime getCreatedOn();
     String getCreatedBy();
     String getCreatedByProfileImageUrl();
 
