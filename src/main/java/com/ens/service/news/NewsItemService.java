@@ -23,4 +23,6 @@ public interface NewsItemService extends IService<NewsItem> {
 
     PagedResponse<NewsItemResponse> getNewsItems(UUID userId, ContentType contentType, int page, int size);
 
+    String getNewsScrollText(UUID userId, int page, int size);
+
 }

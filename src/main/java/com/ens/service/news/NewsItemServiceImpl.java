@@ -29,6 +29,7 @@ import java.util.Optional;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -57,6 +58,9 @@ public class NewsItemServiceImpl implements NewsItemService {
 
     @Autowired
     private NewsItemSocialShareRepository newsItemSocialShareRepository;
+
+    @Value("${app.default.scroll.text}")
+    private String defaultScrollText;
 
     @Override
     public NewsItem save(NewsItem newsItem) {
@@ -305,5 +309,28 @@ public class NewsItemServiceImpl implements NewsItemService {
 
         return new PagedResponse<>(newsItems.getContent(), newsItems.getNumber(),
                 newsItems.getSize(), newsItems.getTotalElements(), newsItems.getTotalPages(), newsItems.isLast());
+    }
+
+    @Override
+    public String getNewsScrollText(UUID userId, int page, int size) {
+
+        validationService.validatePageNumberAndSize(page,size);
+
+        validationService.validateUser(userId);
+
+        Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "created_at");
+
+        Page<NewsItemResponse> newsItems = newsItemRepository.getAllNewsItems(ContentType.SCROLL.name(),pageable);
+
+        if (newsItems == null || newsItems.isEmpty()) {
+            return defaultScrollText;
+        }
+
+        StringBuilder scrollBuilder = new StringBuilder();
+
+        newsItems.get().forEach(newsItem -> scrollBuilder.append(newsItem.getHeadLine()).append(" || "));
+
+        return scrollBuilder.append(defaultScrollText).toString();
+
     }
 }

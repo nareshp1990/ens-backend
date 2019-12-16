@@ -85,5 +85,11 @@ public class NewsApiController {
         newsItemService.delete(newsItemId);
         return ResponseEntity.ok(new ApiResponse(true, "Deleted Successfully"));
     }
+    @GetMapping("/{userId}/scroll")
+    public String getScrollText(@PathVariable UUID userId,
+            @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size){
+        return newsItemService.getNewsScrollText(userId,page,size);
+    }
 
 }
