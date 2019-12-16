@@ -315,7 +315,7 @@
                             <includeEmptyDirs>true</includeEmptyDirs>
                             <resources>
                                 <resource>
-                                    <targetPath>config</targetPath>
+                                    <targetPath>config/dev</targetPath>
                                     <directory>${basedir}/src/main/resources/</directory>
                                     <filtering>true</filtering>
                                 </resource>
