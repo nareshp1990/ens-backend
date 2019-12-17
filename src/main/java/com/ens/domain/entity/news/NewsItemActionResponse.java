@@ -3,8 +3,11 @@ package com.ens.domain.entity.news;
 import com.ens.domain.payload.news.NewsItemAction;
 import java.util.UUID;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 public class NewsItemActionResponse extends NewsItemAction {
 
     private static final long serialVersionUID = 1L;

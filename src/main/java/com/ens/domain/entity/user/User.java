@@ -18,9 +18,12 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
-@Data
+@Setter
+@Getter
 @Table(name = "user", uniqueConstraints = {
         @UniqueConstraint(columnNames = { "mobile_number" })
 })
