@@ -4,21 +4,15 @@ import com.ens.config.content.JsonToMapConverter;
 import com.ens.domain.entity.audit.DateAudit;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import com.vladmihalcea.hibernate.type.json.JsonStringType;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
+
+import javax.persistence.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Setter
 @Getter
@@ -31,10 +25,8 @@ import org.hibernate.annotations.TypeDefs;
 public class ContentInfo extends DateAudit {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "id", columnDefinition = "BINARY(16)")
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "tenant_id", nullable = false)
     private String tenantId;

@@ -1,14 +1,14 @@
 package com.ens.repo.news;
 
 import com.ens.domain.entity.news.UserUnLike;
-import java.util.Optional;
-import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface UserUnLikeRepository extends JpaRepository<UserUnLike, UUID> {
+import java.util.Optional;
 
-    Optional<UserUnLike> findByNewsItemIdAndUserId(UUID newsItemId, UUID userId);
+@Repository
+public interface UserUnLikeRepository extends JpaRepository<UserUnLike, Long> {
+
+    Optional<UserUnLike> findByNewsItemIdAndUserId(Long newsItemId, Long userId);
 
 }

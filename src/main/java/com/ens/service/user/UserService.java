@@ -1,11 +1,10 @@
 package com.ens.service.user;
 
 import com.ens.domain.entity.user.User;
-import com.ens.domain.payload.user.UserResponse;
 import com.ens.domain.payload.PagedResponse;
 import com.ens.domain.payload.user.UserRequest;
+import com.ens.domain.payload.user.UserResponse;
 import com.ens.service.IService;
-import java.util.UUID;
 
 public interface UserService extends IService<User> {
 
@@ -13,13 +12,13 @@ public interface UserService extends IService<User> {
 
     PagedResponse<User> getAllUsers(int page, int size);
 
-    User getUserById(UUID userId);
+    User getUserById(Long userId);
 
-    void deleteUserById(UUID userId);
+    void deleteUserById(Long userId);
 
-    User updateUser(UUID userId, UserRequest updateRequest);
+    User updateUser(Long userId, UserRequest updateRequest);
 
-    User updateUserFCMKey(UUID userId, String fcmKey);
+    User updateUserFCMKey(Long userId, String fcmKey);
 
     UserResponse login(String mobileNumber, String password);
 

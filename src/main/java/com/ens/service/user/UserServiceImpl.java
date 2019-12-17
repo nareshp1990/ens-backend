@@ -9,8 +9,6 @@ import com.ens.exception.AuthException;
 import com.ens.exception.BadRequestException;
 import com.ens.repo.user.UserRepository;
 import com.ens.service.ValidationService;
-import java.util.Optional;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -36,12 +36,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Long id) {
         userRepository.deleteById(id);
     }
 
     @Override
-    public Optional<User> findOne(UUID id) {
+    public Optional<User> findOne(Long id) {
         return userRepository.findById(id);
     }
 
@@ -82,20 +82,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(UUID userId) {
+    public User getUserById(Long userId) {
         return validationService.validateUser(userId);
     }
 
     @Transactional
     @Override
-    public void deleteUserById(UUID userId) {
+    public void deleteUserById(Long userId) {
         validationService.validateUser(userId);
         userRepository.deleteById(userId);
     }
 
     @Transactional
     @Override
-    public User updateUser(UUID userId, UserRequest updateRequest) {
+    public User updateUser(Long userId, UserRequest updateRequest) {
 
         User user = validationService.validateUser(userId);
 
@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public User updateUserFCMKey(UUID userId, String fcmKey) {
+    public User updateUserFCMKey(Long userId, String fcmKey) {
 
         User user = validationService.validateUser(userId);
 

@@ -1,9 +1,9 @@
 package com.ens.domain.payload.location;
 
-import java.util.Set;
-import java.util.UUID;
-import javax.validation.constraints.NotNull;
 import lombok.Data;
+
+import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Data
 public class AreaRequest {
@@ -11,10 +11,10 @@ public class AreaRequest {
     @NotNull
     private Set<String> areaNames;
     @NotNull
-    private UUID countryId;
+    private Long countryId;
     @NotNull
-    private UUID stateId;
+    private Long stateId;
     @NotNull
-    private UUID districtId;
+    private Long districtId;
 
 }

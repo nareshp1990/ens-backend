@@ -9,24 +9,15 @@ import com.ens.util.AppConstants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponses;
-import java.net.URI;
-import java.util.UUID;
-import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.validation.Valid;
+import java.net.URI;
 
 @Api(value = "user service", description = "The user service API", tags = {"user"})
 @RestController
@@ -51,7 +42,7 @@ public class UserApiController {
 
     @ApiOperation(value = "update user", tags = {"user"}, produces = MediaType.APPLICATION_JSON_VALUE)
     @PutMapping("/{userId}")
-    public ResponseEntity<?> updateUser(@PathVariable UUID userId, @RequestBody UserRequest userRequest){
+    public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody UserRequest userRequest){
 
         User user = userService.updateUser(userId,userRequest);
 
@@ -73,20 +64,20 @@ public class UserApiController {
 
     @ApiOperation(value = "get user by id", tags = {"user"}, produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "/{userId}")
-    public ResponseEntity<User> getUser(@PathVariable UUID userId){
+    public ResponseEntity<User> getUser(@PathVariable Long userId){
         return ResponseEntity.ok(userService.getUserById(userId));
     }
 
     @ApiOperation(value = "delete user", tags = {"user"}, produces = MediaType.APPLICATION_JSON_VALUE)
     @DeleteMapping(value = "/{userId}")
-    public ResponseEntity<ApiResponse> deleteUser(@PathVariable UUID userId){
+    public ResponseEntity<ApiResponse> deleteUser(@PathVariable Long userId){
         userService.deleteUserById(userId);
         return ResponseEntity.ok(new ApiResponse(true, "User Deleted Successfully"));
     }
 
     @ApiOperation(value = "update user fcm key", tags = {"user"}, produces = MediaType.APPLICATION_JSON_VALUE)
     @PatchMapping("/{userId}/fcmkey/update")
-    public ResponseEntity<User> updateUserFCMKey(@PathVariable UUID userId, @RequestParam String fcmKey){
+    public ResponseEntity<User> updateUserFCMKey(@PathVariable Long userId, @RequestParam String fcmKey){
         return ResponseEntity.ok(userService.updateUserFCMKey(userId,fcmKey));
     }
 

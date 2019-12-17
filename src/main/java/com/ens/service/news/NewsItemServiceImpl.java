@@ -4,29 +4,13 @@ import com.ens.domain.entity.location.Area;
 import com.ens.domain.entity.location.Country;
 import com.ens.domain.entity.location.District;
 import com.ens.domain.entity.location.State;
-import com.ens.domain.entity.news.ActionType;
-import com.ens.domain.entity.news.ContentType;
-import com.ens.domain.entity.news.NewsItem;
-import com.ens.domain.entity.news.NewsItemActionResponse;
-import com.ens.domain.entity.news.NewsItemLocation;
-import com.ens.domain.entity.news.NewsItemResponse;
-import com.ens.domain.entity.news.NewsItemSocialShare;
-import com.ens.domain.entity.news.UserComment;
-import com.ens.domain.entity.news.UserLike;
-import com.ens.domain.entity.news.UserUnLike;
-import com.ens.domain.entity.news.Video;
+import com.ens.domain.entity.news.*;
 import com.ens.domain.entity.user.User;
 import com.ens.domain.payload.PagedResponse;
 import com.ens.domain.payload.news.NewsItemRequest;
 import com.ens.domain.payload.news.VideoRequest;
-import com.ens.repo.news.NewsItemRepository;
-import com.ens.repo.news.NewsItemSocialShareRepository;
-import com.ens.repo.news.UserCommentRepository;
-import com.ens.repo.news.UserLikeRepository;
-import com.ens.repo.news.UserUnLikeRepository;
+import com.ens.repo.news.*;
 import com.ens.service.ValidationService;
-import java.util.Optional;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,6 +20,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -68,12 +54,12 @@ public class NewsItemServiceImpl implements NewsItemService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Long id) {
         newsItemRepository.deleteById(id);
     }
 
     @Override
-    public Optional<NewsItem> findOne(UUID id) {
+    public Optional<NewsItem> findOne(Long id) {
         return newsItemRepository.findById(id);
     }
 
@@ -89,7 +75,7 @@ public class NewsItemServiceImpl implements NewsItemService {
 
     @Transactional
     @Override
-    public NewsItem createNews(UUID userId, NewsItemRequest newsRequest) {
+    public NewsItem createNews(Long userId, NewsItemRequest newsRequest) {
 
         User user = validationService.validateUser(userId);
 
@@ -141,7 +127,7 @@ public class NewsItemServiceImpl implements NewsItemService {
 
     @Transactional
     @Override
-    public NewsItem createVideo(UUID userId, VideoRequest videoRequest) {
+    public NewsItem createVideo(Long userId, VideoRequest videoRequest) {
 
         User user = validationService.validateUser(userId);
 
@@ -204,7 +190,7 @@ public class NewsItemServiceImpl implements NewsItemService {
 
     @Transactional
     @Override
-    public void postComment(UUID userId, UUID newsItemId, String comment) {
+    public void postComment(Long userId, Long newsItemId, String comment) {
 
         User user = validationService.validateUser(userId);
         NewsItem newsItem = validationService.validateNewsItem(newsItemId);
@@ -219,7 +205,7 @@ public class NewsItemServiceImpl implements NewsItemService {
 
     @Transactional
     @Override
-    public NewsItemActionResponse postNewsItemAction(UUID userId, UUID newsItemId, ActionType actionType) {
+    public NewsItemActionResponse postNewsItemAction(Long userId, Long newsItemId, ActionType actionType) {
 
         User user = validationService.validateUser(userId);
         NewsItem newsItem = validationService.validateNewsItem(newsItemId);
@@ -297,7 +283,7 @@ public class NewsItemServiceImpl implements NewsItemService {
 
     @Transactional(readOnly = true)
     @Override
-    public PagedResponse<NewsItemResponse> getNewsItems(UUID userId, ContentType contentType, int page, int size) {
+    public PagedResponse<NewsItemResponse> getNewsItems(Long userId, ContentType contentType, int page, int size) {
 
         validationService.validatePageNumberAndSize(page,size);
 
@@ -312,7 +298,7 @@ public class NewsItemServiceImpl implements NewsItemService {
     }
 
     @Override
-    public String getNewsScrollText(UUID userId, int page, int size) {
+    public String getNewsScrollText(Long userId, int page, int size) {
 
         validationService.validatePageNumberAndSize(page,size);
 

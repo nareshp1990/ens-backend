@@ -6,19 +6,19 @@ import com.ens.domain.entity.location.District;
 import com.ens.domain.entity.location.State;
 import com.ens.domain.entity.user.Gender;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserResponse implements Serializable {
 
-    private UUID id;
+    private Long id;
     private String userName;
     private String email;
     private String mobileNumber;

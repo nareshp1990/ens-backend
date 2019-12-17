@@ -6,16 +6,15 @@ import com.ens.domain.payload.poll.PollRequest;
 import com.ens.domain.payload.poll.PollResponse;
 import com.ens.domain.payload.poll.VoteRequest;
 import com.ens.service.IService;
-import java.util.UUID;
 
 public interface PollService extends IService<Poll> {
 
-    PagedResponse<PollResponse> getAllPolls(UUID userId,int page, int size);
+    PagedResponse<PollResponse> getAllPolls(Long userId,int page, int size);
 
-    Poll createPoll(PollRequest pollRequest, UUID userId);
+    Poll createPoll(PollRequest pollRequest, Long userId);
 
-    PollResponse getPollById(UUID pollId, UUID userId);
+    PollResponse getPollById(Long pollId, Long userId);
 
-    PollResponse castVoteAndGetUpdatedPoll(UUID pollId, VoteRequest voteRequest, UUID userId);
+    PollResponse castVoteAndGetUpdatedPoll(Long pollId, VoteRequest voteRequest, Long userId);
 
 }

@@ -1,14 +1,14 @@
 package com.ens.repo.user;
 
 import com.ens.domain.entity.user.User;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
-public interface UserRepository extends JpaRepository<User, UUID> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
 
@@ -16,7 +16,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     Optional<User> findByUserNameOrEmail(String userName, String email);
 
-    List<User> findByIdIn(List<UUID> userIds);
+    List<User> findByIdIn(List<Long> userIds);
 
     Optional<User> findByUserName(String userName);
 

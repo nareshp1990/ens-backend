@@ -8,15 +8,6 @@ import com.ens.domain.payload.content.ContentRequest;
 import com.ens.domain.response.ContentMetadata;
 import com.ens.domain.response.ContentResponse;
 import com.ens.exception.FileStorageException;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +20,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -109,7 +106,7 @@ public class ContentBusinessService {
     /**
      *
      */
-    public Resource getContent(UUID id) {
+    public Resource getContent(Long id) {
 
         ContentInfo contentInfo = validationService.validateAndGet(id);
 
@@ -120,7 +117,7 @@ public class ContentBusinessService {
     /**
      *
      */
-    public String getContentUri(UUID id) {
+    public String getContentUri(Long id) {
 
         ContentInfo contentInfo = validationService.validateAndGet(id);
 
@@ -141,7 +138,7 @@ public class ContentBusinessService {
     /**
      *
      */
-    public ContentMetadata getContentMetadata(UUID id) {
+    public ContentMetadata getContentMetadata(Long id) {
 
         ContentInfo contentInfo = validationService.validateAndGet(id);
 
@@ -162,7 +159,7 @@ public class ContentBusinessService {
     /**
      * @param id content id
      */
-    public void delete(UUID id) throws IOException {
+    public void delete(Long id) throws IOException {
 
         ContentInfo contentInfo = validationService.validateAndGet(id);
 

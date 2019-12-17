@@ -2,11 +2,11 @@ package com.ens.service.content;
 
 import com.ens.domain.entity.content.ContentInfo;
 import com.ens.exception.ContentNotFoundException;
-import java.util.Optional;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Slf4j
 @Component
@@ -19,7 +19,7 @@ public class ContentValidationService {
      * @param id content id
      * @return
      */
-    public ContentInfo validateAndGet(UUID id){
+    public ContentInfo validateAndGet(Long id){
 
         Optional<ContentInfo> contentInfo = contentService.findOne(id);
 

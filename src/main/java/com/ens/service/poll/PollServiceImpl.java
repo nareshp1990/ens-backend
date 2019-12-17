@@ -1,7 +1,7 @@
 package com.ens.service.poll;
 
-import com.ens.domain.entity.poll.ChoiceVoteCount;
 import com.ens.domain.entity.poll.Choice;
+import com.ens.domain.entity.poll.ChoiceVoteCount;
 import com.ens.domain.entity.poll.Poll;
 import com.ens.domain.entity.poll.Vote;
 import com.ens.domain.entity.user.User;
@@ -16,15 +16,6 @@ import com.ens.repo.poll.VoteRepository;
 import com.ens.repo.user.UserRepository;
 import com.ens.service.ValidationService;
 import com.ens.util.ModelMapper;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -34,6 +25,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -58,13 +58,13 @@ public class PollServiceImpl implements PollService {
 
     @Transactional
     @Override
-    public void delete(UUID pollId) {
+    public void delete(Long pollId) {
         pollRepository.findById(pollId).orElseThrow(() -> new ResourceNotFoundException("Poll","id",pollId));
         pollRepository.deleteById(pollId);
     }
 
     @Override
-    public Optional<Poll> findOne(UUID id) {
+    public Optional<Poll> findOne(Long id) {
         return pollRepository.findById(id);
     }
 
@@ -80,7 +80,7 @@ public class PollServiceImpl implements PollService {
 
     @Transactional(readOnly = true)
     @Override
-    public PagedResponse<PollResponse> getAllPolls(UUID userId, int page, int size) {
+    public PagedResponse<PollResponse> getAllPolls(Long userId, int page, int size) {
 
         validationService.validatePageNumberAndSize(page, size);
 
@@ -95,10 +95,10 @@ public class PollServiceImpl implements PollService {
         }
 
         // Map Polls to PollResponses containing vote counts and poll creator details
-        List<UUID> pollIds = polls.map(Poll::getId).getContent();
-        Map<UUID, Long> choiceVoteCountMap = getChoiceVoteCountMap(pollIds);
-        Map<UUID, UUID> pollUserVoteMap = getPollUserVoteMap(userId, pollIds);
-        Map<UUID, User> creatorMap = getPollCreatorMap(polls.getContent());
+        List<Long> pollIds = polls.map(Poll::getId).getContent();
+        Map<Long, Long> choiceVoteCountMap = getChoiceVoteCountMap(pollIds);
+        Map<Long, Long> pollUserVoteMap = getPollUserVoteMap(userId, pollIds);
+        Map<Long, User> creatorMap = getPollCreatorMap(polls.getContent());
 
         List<PollResponse> pollResponses = polls.map(poll -> ModelMapper.mapPollToPollResponse(poll,
                 choiceVoteCountMap,
@@ -111,7 +111,7 @@ public class PollServiceImpl implements PollService {
 
     @Transactional
     @Override
-    public Poll createPoll(PollRequest pollRequest, UUID userId) {
+    public Poll createPoll(PollRequest pollRequest, Long userId) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
@@ -137,7 +137,7 @@ public class PollServiceImpl implements PollService {
 
     @Transactional(readOnly = true)
     @Override
-    public PollResponse getPollById(UUID pollId, UUID userId) {
+    public PollResponse getPollById(Long pollId, Long userId) {
 
         Poll poll = pollRepository.findById(pollId).orElseThrow(
                 () -> new ResourceNotFoundException("Poll", "id", pollId));
@@ -145,7 +145,7 @@ public class PollServiceImpl implements PollService {
         // Retrieve Vote Counts of every choice belonging to the current poll
         List<ChoiceVoteCount> votes = voteRepository.countByPollIdGroupByChoiceId(pollId);
 
-        Map<UUID, Long> choiceVotesMap = votes.stream()
+        Map<Long, Long> choiceVotesMap = votes.stream()
                 .collect(Collectors.toMap(ChoiceVoteCount::getChoiceId, ChoiceVoteCount::getVoteCount));
 
         // Retrieve poll creator details
@@ -164,7 +164,7 @@ public class PollServiceImpl implements PollService {
 
     @Transactional
     @Override
-    public PollResponse castVoteAndGetUpdatedPoll(UUID pollId, VoteRequest voteRequest, UUID userId) {
+    public PollResponse castVoteAndGetUpdatedPoll(Long pollId, VoteRequest voteRequest, Long userId) {
 
         Poll poll = pollRepository.findById(pollId)
                 .orElseThrow(() -> new ResourceNotFoundException("Poll", "id", pollId));
@@ -197,7 +197,7 @@ public class PollServiceImpl implements PollService {
         // Retrieve Vote Counts of every choice belonging to the current poll
         List<ChoiceVoteCount> votes = voteRepository.countByPollIdGroupByChoiceId(pollId);
 
-        Map<UUID, Long> choiceVotesMap = votes.stream()
+        Map<Long, Long> choiceVotesMap = votes.stream()
                 .collect(Collectors.toMap(ChoiceVoteCount::getChoiceId, ChoiceVoteCount::getVoteCount));
 
         // Retrieve poll creator details
@@ -207,22 +207,22 @@ public class PollServiceImpl implements PollService {
         return ModelMapper.mapPollToPollResponse(poll, choiceVotesMap, creator, vote.getChoice().getId());
     }
 
-    private Map<UUID, Long> getChoiceVoteCountMap(List<UUID> pollIds) {
+    private Map<Long, Long> getChoiceVoteCountMap(List<Long> pollIds) {
 
         // Retrieve Vote Counts of every Choice belonging to the given pollIds
 
         List<ChoiceVoteCount> votes = voteRepository.countByPollIdInGroupByChoiceId(pollIds);
 
-        Map<UUID, Long> choiceVotesMap = votes.stream()
+        Map<Long, Long> choiceVotesMap = votes.stream()
                 .collect(Collectors.toMap(ChoiceVoteCount::getChoiceId, ChoiceVoteCount::getVoteCount));
 
         return choiceVotesMap;
     }
 
-    private Map<UUID, UUID> getPollUserVoteMap(UUID userId, List<UUID> pollIds) {
+    private Map<Long, Long> getPollUserVoteMap(Long userId, List<Long> pollIds) {
 
         // Retrieve Votes done by the logged in user to the given pollIds
-        Map<UUID, UUID> pollUserVoteMap = null;
+        Map<Long, Long> pollUserVoteMap = null;
 
         if (userId != null) {
             List<Vote> userVotes = voteRepository.findByUserIdAndPollIdIn(userId, pollIds);
@@ -232,17 +232,17 @@ public class PollServiceImpl implements PollService {
         return pollUserVoteMap;
     }
 
-    Map<UUID, User> getPollCreatorMap(List<Poll> polls) {
+    Map<Long, User> getPollCreatorMap(List<Poll> polls) {
 
         // Get Poll Creator details of the given list of polls
-        List<UUID> creatorIds = polls.stream()
+        List<Long> creatorIds = polls.stream()
                 .map(Poll::getCreatedBy)
                 .distinct()
                 .collect(Collectors.toList());
 
         List<User> creators = userRepository.findByIdIn(creatorIds);
 
-        Map<UUID, User> creatorMap = creators.stream()
+        Map<Long, User> creatorMap = creators.stream()
                 .collect(Collectors.toMap(User::getId, Function.identity()));
 
         return creatorMap;

@@ -1,17 +1,17 @@
 package com.ens.service;
 
-import java.util.Optional;
-import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.Optional;
 
 public interface IService<T> {
 
     T save(T t);
 
-    void delete(UUID id);
+    void delete(Long id);
 
-    Optional<T> findOne(UUID id);
+    Optional<T> findOne(Long id);
 
     Iterable<T> findAll();
 

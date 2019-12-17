@@ -5,15 +5,15 @@ import com.ens.domain.entity.user.User;
 import com.ens.domain.payload.poll.ChoiceResponse;
 import com.ens.domain.payload.poll.PollResponse;
 import com.ens.domain.payload.poll.UserSummary;
+
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class ModelMapper {
 
-    public static PollResponse mapPollToPollResponse(Poll poll, Map<UUID, Long> choiceVotesMap, User creator, UUID userVote) {
+    public static PollResponse mapPollToPollResponse(Poll poll, Map<Long, Long> choiceVotesMap, User creator, Long userVote) {
         PollResponse pollResponse = new PollResponse();
         pollResponse.setId(poll.getId());
         pollResponse.setQuestion(poll.getQuestion());

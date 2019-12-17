@@ -16,13 +16,13 @@ import com.ens.repo.location.DistrictRepository;
 import com.ens.repo.location.StateRepository;
 import com.ens.repo.user.UserRepository;
 import com.ens.service.ValidationService;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -47,7 +47,7 @@ public class LocationService {
     private ValidationService validationService;
 
     @Transactional
-    public void save(CountryRequest countryRequest,UUID userId){
+    public void save(CountryRequest countryRequest,Long userId){
 
         User user = validationService.validateUser(userId);
 
@@ -62,7 +62,7 @@ public class LocationService {
     }
 
     @Transactional
-    public void save(StateRequest stateRequest,UUID userId){
+    public void save(StateRequest stateRequest,Long userId){
         User user = validationService.validateUser(userId);
         Country country = countryRepository.findById(stateRequest.getCountryId()).orElseThrow(() -> new ResourceNotFoundException());
         List<State> states = stateRequest.getStateNames().stream()
@@ -71,12 +71,12 @@ public class LocationService {
         stateRepository.saveAll(states);
     }
 
-    public List<State> getStates(UUID countryId){
+    public List<State> getStates(Long countryId){
         return stateRepository.findByCountryId(countryId);
     }
 
     @Transactional
-    public void save(DistrictRequest districtRequest, UUID userId){
+    public void save(DistrictRequest districtRequest, Long userId){
         User user = validationService.validateUser(userId);
         Country country = countryRepository.findById(districtRequest.getCountryId()).orElseThrow(() -> new ResourceNotFoundException());
         State state = stateRepository.findById(districtRequest.getStateId()).orElseThrow(() -> new ResourceNotFoundException());
@@ -86,12 +86,12 @@ public class LocationService {
         districtRepository.saveAll(districts);
     }
 
-    public List<District> getAllDistricts(UUID stateId){
+    public List<District> getAllDistricts(Long stateId){
         return districtRepository.findByStateId(stateId);
     }
 
     @Transactional
-    public void save(AreaRequest areaRequest, UUID userId){
+    public void save(AreaRequest areaRequest, Long userId){
         User user = validationService.validateUser(userId);
         Country country = countryRepository.findById(areaRequest.getCountryId()).orElseThrow(() -> new ResourceNotFoundException());
         State state = stateRepository.findById(areaRequest.getStateId()).orElseThrow(() -> new ResourceNotFoundException());
@@ -102,7 +102,7 @@ public class LocationService {
         areaRepository.saveAll(areas);
     }
 
-    public List<Area> getAllAreas(UUID districtId){
+    public List<Area> getAllAreas(Long districtId){
         return areaRepository.findByDistrictId(districtId);
     }
 

@@ -1,26 +1,15 @@
 package com.ens.domain.entity.user;
 
 import com.ens.domain.entity.audit.DateAudit;
-import com.ens.domain.payload.user.UserViews;
 import com.ens.domain.payload.user.UserViews.Internal;
 import com.ens.domain.payload.user.UserViews.Public;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
-import java.util.UUID;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.Email;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import javax.validation.constraints.Email;
 
 @Setter
 @Getter
@@ -32,10 +21,8 @@ public class User extends DateAudit {
 
     @JsonView(Public.class)
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "id", columnDefinition = "BINARY(16)")
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @JsonView(Public.class)
     @Column(name = "user_name")

@@ -15,7 +15,6 @@ import com.ens.repo.location.StateRepository;
 import com.ens.repo.news.NewsItemRepository;
 import com.ens.repo.user.UserRepository;
 import com.ens.util.AppConstants;
-import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,27 +51,27 @@ public class ValidationService {
 
     }
 
-    public User validateUser(UUID userId){
+    public User validateUser(Long userId){
         return userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
     }
 
-    public NewsItem validateNewsItem(UUID newsItemId){
+    public NewsItem validateNewsItem(Long newsItemId){
         return newsItemRepository.findById(newsItemId).orElseThrow(() -> new ResourceNotFoundException("News", "id", newsItemId));
     }
 
-    public Country validateCountry(UUID countryId){
+    public Country validateCountry(Long countryId){
         return countryRepository.findById(countryId).orElseThrow(() -> new ResourceNotFoundException("Country", "id", countryId));
     }
 
-    public State validateState(UUID stateId){
+    public State validateState(Long stateId){
         return stateRepository.findById(stateId).orElseThrow(() -> new ResourceNotFoundException("State", "id", stateId));
     }
 
-    public District validateDistrict(UUID districtId){
+    public District validateDistrict(Long districtId){
         return districtRepository.findById(districtId).orElseThrow(() -> new ResourceNotFoundException("District", "id", districtId));
     }
 
-    public Area validateArea(UUID areaId){
+    public Area validateArea(Long areaId){
         return areaRepository.findById(areaId).orElseThrow(() -> new ResourceNotFoundException("Area", "id", areaId));
     }
 

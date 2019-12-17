@@ -1,26 +1,23 @@
 package com.ens.repo.poll;
 
 import com.ens.domain.entity.poll.Poll;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
-public interface PollRepository extends JpaRepository<Poll, UUID> {
+public interface PollRepository extends JpaRepository<Poll, Long> {
 
-    Optional<Poll> findById(UUID pollId);
+    Page<Poll> findByCreatedBy(Long userId, Pageable pageable);
 
-    Page<Poll> findByCreatedBy(UUID userId, Pageable pageable);
+    long countByCreatedBy(Long userId);
 
-    long countByCreatedBy(UUID userId);
+    List<Poll> findByIdIn(List<Long> pollIds);
 
-    List<Poll> findByIdIn(List<UUID> pollIds);
-
-    List<Poll> findByIdIn(List<UUID> pollIds, Sort sort);
+    List<Poll> findByIdIn(List<Long> pollIds, Sort sort);
 
 }

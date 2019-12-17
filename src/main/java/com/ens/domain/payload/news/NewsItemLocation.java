@@ -1,10 +1,10 @@
 package com.ens.domain.payload.news;
 
-import java.io.Serializable;
-import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 public class NewsItemLocation implements Serializable {
 
     protected boolean isInternational;
-    protected UUID countryId;
-    protected UUID stateId;
-    protected UUID districtId;
-    protected UUID areaId;
+    protected Long countryId;
+    protected Long stateId;
+    protected Long districtId;
+    protected Long areaId;
 }

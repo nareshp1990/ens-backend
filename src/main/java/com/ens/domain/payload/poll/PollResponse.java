@@ -1,21 +1,21 @@
 package com.ens.domain.payload.poll;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class PollResponse implements Serializable{
 
-    private UUID id;
+    private Long id;
     private String question;
     private List<ChoiceResponse> choices;
     private UserSummary createdBy;
@@ -24,7 +24,7 @@ public class PollResponse implements Serializable{
     private Boolean isExpired;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private UUID selectedChoice;
+    private Long selectedChoice;
     private Long totalVotes;
 
 

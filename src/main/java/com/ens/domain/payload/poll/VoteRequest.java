@@ -1,11 +1,11 @@
 package com.ens.domain.payload.poll;
 
-import java.io.Serializable;
-import java.util.UUID;
-import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 public class VoteRequest implements Serializable{
 
     @NotNull
-    private UUID choiceId;
+    private Long choiceId;
 
 }

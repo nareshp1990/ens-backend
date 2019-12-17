@@ -1,11 +1,10 @@
 package com.ens.domain.entity.news;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public interface NewsItemResponse {
 
-    UUID getNewsItemId();
+    Long getNewsItemId();
     String getHeadLine();
     String getDescription();
     String getImageUrl();

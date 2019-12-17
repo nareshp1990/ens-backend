@@ -1,9 +1,9 @@
 package com.ens.domain.payload.location;
 
-import java.util.Set;
-import java.util.UUID;
-import javax.validation.constraints.NotNull;
 import lombok.Data;
+
+import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Data
 public class StateRequest {
@@ -11,6 +11,6 @@ public class StateRequest {
     @NotNull
     private Set<String> stateNames;
     @NotNull
-    private UUID countryId;
+    private Long countryId;
 
 }

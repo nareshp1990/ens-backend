@@ -4,18 +4,7 @@ import com.ens.domain.payload.content.ContentRequest;
 import com.ens.domain.response.ContentMetadata;
 import com.ens.domain.response.ContentResponse;
 import com.ens.service.content.ContentBusinessService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +16,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Api(value = "content service", description = "The content service API", tags = {"content"})
 @Slf4j
@@ -77,7 +67,7 @@ public class ContentApiController {
 
     @ApiOperation(value = "download content", tags = {"content"})
     @GetMapping("/download/{id}")
-    public ResponseEntity<byte[]> getContent(@PathVariable("id") UUID id,
+    public ResponseEntity<byte[]> getContent(@PathVariable("id") Long id,
             HttpServletRequest request) throws IOException {
         log.info("Given content id : {}", id);
         // Load file as Resource
@@ -105,7 +95,7 @@ public class ContentApiController {
 
     @ApiOperation(value = "View content", tags = {"content"})
     @GetMapping("/{id}")
-    public void redirectURL(@PathVariable("id") UUID id, HttpServletResponse response)
+    public void redirectURL(@PathVariable("id") Long id, HttpServletResponse response)
             throws IOException {
         response.sendRedirect(contentBusinessService.getContentUri(id));
     }
@@ -115,13 +105,13 @@ public class ContentApiController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "content metadata", response = ContentMetadata.class)})
     @GetMapping("/{id}/info")
-    public ResponseEntity getContentMetadata(@PathVariable("id") UUID id) {
+    public ResponseEntity getContentMetadata(@PathVariable("id") Long id) {
         return ResponseEntity.ok(contentBusinessService.getContentMetadata(id));
     }
 
     @ApiOperation(value = "Delete content", tags = {"content"})
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteContent(@PathVariable("id") UUID id) throws IOException {
+    public ResponseEntity deleteContent(@PathVariable("id") Long id) throws IOException {
         contentBusinessService.delete(id);
         return ResponseEntity.ok().build();
     }
