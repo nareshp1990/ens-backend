@@ -36,22 +36,22 @@ public class NewsItemLocation extends DateAudit {
     private boolean isInternational;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "country_id",columnDefinition = "BINARY(16) default NULL")
+    @JoinColumn(name = "country_id",nullable = true)
     @JsonIgnore
     private Country country;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "state_id",columnDefinition = "BINARY(16) default NULL")
+    @JoinColumn(name = "state_id",nullable = true)
     @JsonIgnore
     private State state;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "district_id",columnDefinition = "BINARY(16) default NULL")
+    @JoinColumn(name = "district_id",nullable = true)
     @JsonIgnore
     private District district;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "area_id",columnDefinition = "BINARY(16) default NULL")
+    @JoinColumn(name = "area_id",nullable = true)
     @JsonIgnore
     private Area area;
 
