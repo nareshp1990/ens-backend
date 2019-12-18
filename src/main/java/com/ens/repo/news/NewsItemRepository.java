@@ -12,14 +12,17 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface NewsItemRepository extends JpaRepository<NewsItem, Long> {
+public interface NewsItemRepository extends JpaRepository<NewsItem, Long>, NewsItemRepositoryCustom {
 
-    @Query("SELECT NEW com.ens.domain.entity.news.NewsItemActionResponse( sh.views, count(ul.id), count(unl.id), count(uc.id), "
-            + " sh.whatsAppShares, sh.facebookShares, sh.instagramShares, sh.helloAppShares, sh.twitterShares, sh.telegramShares, ni.id ) from NewsItem ni"
-            + " LEFT JOIN  NewsItemSocialShare sh ON sh.newsItem.id = ni.id"
-            + " LEFT JOIN  UserComment uc ON uc.newsItem.id = ni.id"
-            + " LEFT JOIN  UserUnLike unl ON unl.newsItem.id = ni.id"
-            + " LEFT JOIN  UserLike ul ON ul.newsItem.id = ni.id WHERE ni.id = :newsItemId GROUP BY ni.id")
+    @Query(value = "select NEW com.ens.domain.entity.news.NewsItemActionResponse( sh.views, count(ul.id) likes, count(unl.id) unLikes, count(uc.id) comments, sh.whats_app_shares whatsAppShares, sh.facebook_shares facebookShares,  "
+            + " sh.instagram_shares instagramShares, sh.hello_app_shares helloAppShares, sh.twitter_shares twitterShares, sh.telegram_shares telegramShares, ni.id newsItemId ) from news_item ni "
+            + " LEFT JOIN news_item_social_shares sh ON sh.news_item_id = ni.id "
+            + " LEFT JOIN news_item_user_comments uc on uc.news_item_id = ni.id "
+            + " LEFT JOIN news_item_user_likes ul on ul.news_item_id = ni.id "
+            + " LEFT JOIN news_item_user_un_likes unl on unl.news_item_id = ni.id "
+            + " LEFT JOIN news_item_video v on v.news_item_id = ni.id "
+            + " WHERE ni.id = :newsItemId "
+            + " GROUP BY ni.id ", nativeQuery = true)
     Optional<NewsItemActionResponse> getNewsItemActionResponseByNewsItemId(@Param("newsItemId") Long newsItemId);
 
     @Query(value =

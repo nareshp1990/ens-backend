@@ -245,7 +245,7 @@ public class NewsItemServiceImpl implements NewsItemService {
 
         }
 
-        return newsItemRepository.getNewsItemActionResponseByNewsItemId(newsItemId).orElseGet(NewsItemActionResponse::new);
+        return newsItemRepository.getNewsItemActionResponse(newsItemId).orElseGet(NewsItemActionResponse::new);
     }
 
     private void updateNewsItemActions(ActionType actionType,NewsItem newsItem){
