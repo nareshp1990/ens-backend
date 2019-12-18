@@ -4,13 +4,29 @@ import com.ens.domain.entity.location.Area;
 import com.ens.domain.entity.location.Country;
 import com.ens.domain.entity.location.District;
 import com.ens.domain.entity.location.State;
-import com.ens.domain.entity.news.*;
+import com.ens.domain.entity.news.ActionType;
+import com.ens.domain.entity.news.ContentType;
+import com.ens.domain.entity.news.NewsItem;
+import com.ens.domain.entity.news.NewsItemActionResponse;
+import com.ens.domain.entity.news.NewsItemLocation;
+import com.ens.domain.entity.news.NewsItemResponse;
+import com.ens.domain.entity.news.NewsItemSocialShare;
+import com.ens.domain.entity.news.UserComment;
+import com.ens.domain.entity.news.UserLike;
+import com.ens.domain.entity.news.UserUnLike;
+import com.ens.domain.entity.news.Video;
 import com.ens.domain.entity.user.User;
 import com.ens.domain.payload.PagedResponse;
 import com.ens.domain.payload.news.NewsItemRequest;
+import com.ens.domain.payload.news.ScrollResponse;
 import com.ens.domain.payload.news.VideoRequest;
-import com.ens.repo.news.*;
+import com.ens.repo.news.NewsItemRepository;
+import com.ens.repo.news.NewsItemSocialShareRepository;
+import com.ens.repo.news.UserCommentRepository;
+import com.ens.repo.news.UserLikeRepository;
+import com.ens.repo.news.UserUnLikeRepository;
 import com.ens.service.ValidationService;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,8 +36,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -205,7 +219,7 @@ public class NewsItemServiceImpl implements NewsItemService {
 
     @Transactional
     @Override
-    public NewsItemActionResponse postNewsItemAction(Long userId, Long newsItemId, ActionType actionType) {
+    public void postNewsItemAction(Long userId, Long newsItemId, ActionType actionType) {
 
         User user = validationService.validateUser(userId);
         NewsItem newsItem = validationService.validateNewsItem(newsItemId);
@@ -245,6 +259,10 @@ public class NewsItemServiceImpl implements NewsItemService {
 
         }
 
+    }
+
+    @Override
+    public NewsItemActionResponse getNewsItemAction(Long newsItemId) {
         return newsItemRepository.getNewsItemActionResponse(newsItemId).orElseGet(NewsItemActionResponse::new);
     }
 
@@ -298,7 +316,7 @@ public class NewsItemServiceImpl implements NewsItemService {
     }
 
     @Override
-    public String getNewsScrollText(Long userId, int page, int size) {
+    public ScrollResponse getNewsScrollText(Long userId, int page, int size) {
 
         validationService.validatePageNumberAndSize(page,size);
 
@@ -309,14 +327,15 @@ public class NewsItemServiceImpl implements NewsItemService {
         Page<NewsItemResponse> newsItems = newsItemRepository.getAllNewsItems(ContentType.SCROLL.name(),pageable);
 
         if (newsItems == null || newsItems.isEmpty()) {
-            return defaultScrollText;
+            return new ScrollResponse(defaultScrollText);
         }
 
         StringBuilder scrollBuilder = new StringBuilder();
 
         newsItems.get().forEach(newsItem -> scrollBuilder.append(newsItem.getHeadLine()).append(" || "));
 
-        return scrollBuilder.append(defaultScrollText).toString();
+//        return scrollBuilder.append(defaultScrollText).toString();
+        return new ScrollResponse(scrollBuilder.toString());
 
     }
 }
