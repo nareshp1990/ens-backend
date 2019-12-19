@@ -9,8 +9,13 @@ import com.ens.exception.AuthException;
 import com.ens.exception.BadRequestException;
 import com.ens.repo.user.UserRepository;
 import com.ens.service.ValidationService;
+import com.google.common.collect.Lists;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingException;
+import com.google.firebase.messaging.TopicManagementResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +34,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ValidationService validationService;
+
+    @Value("${app.fcm.news.topic.name:news}")
+    private String fcmNewsTopicName;
 
     @Override
     public User save(User user) {
@@ -109,6 +117,14 @@ public class UserServiceImpl implements UserService {
         User user = validationService.validateUser(userId);
 
         user.setFcmRegistrationKey(fcmKey);
+
+        try {
+            TopicManagementResponse response = FirebaseMessaging.getInstance().subscribeToTopic(Lists.newArrayList(fcmKey),fcmNewsTopicName);
+            log.info("### Topic Subscription Response : {}",response);
+        } catch (FirebaseMessagingException e) {
+            e.printStackTrace();
+            log.error("{}",e);
+        }
 
         return save(user);
     }

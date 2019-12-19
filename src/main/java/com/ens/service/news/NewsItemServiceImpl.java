@@ -4,29 +4,16 @@ import com.ens.domain.entity.location.Area;
 import com.ens.domain.entity.location.Country;
 import com.ens.domain.entity.location.District;
 import com.ens.domain.entity.location.State;
-import com.ens.domain.entity.news.ActionType;
-import com.ens.domain.entity.news.ContentType;
-import com.ens.domain.entity.news.NewsItem;
-import com.ens.domain.entity.news.NewsItemActionResponse;
-import com.ens.domain.entity.news.NewsItemLocation;
-import com.ens.domain.entity.news.NewsItemResponse;
-import com.ens.domain.entity.news.NewsItemSocialShare;
-import com.ens.domain.entity.news.UserComment;
-import com.ens.domain.entity.news.UserLike;
-import com.ens.domain.entity.news.UserUnLike;
-import com.ens.domain.entity.news.Video;
+import com.ens.domain.entity.news.*;
 import com.ens.domain.entity.user.User;
 import com.ens.domain.payload.PagedResponse;
+import com.ens.domain.payload.fcm.PushNotificationRequest;
 import com.ens.domain.payload.news.NewsItemRequest;
 import com.ens.domain.payload.news.ScrollResponse;
 import com.ens.domain.payload.news.VideoRequest;
-import com.ens.repo.news.NewsItemRepository;
-import com.ens.repo.news.NewsItemSocialShareRepository;
-import com.ens.repo.news.UserCommentRepository;
-import com.ens.repo.news.UserLikeRepository;
-import com.ens.repo.news.UserUnLikeRepository;
+import com.ens.repo.news.*;
 import com.ens.service.ValidationService;
-import java.util.Optional;
+import com.ens.service.fcm.PushNotificationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,6 +23,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -61,6 +52,12 @@ public class NewsItemServiceImpl implements NewsItemService {
 
     @Value("${app.default.scroll.text}")
     private String defaultScrollText;
+
+    @Value("${app.fcm.news.topic.name:news}")
+    private String fcmNewsTopicName;
+
+    @Autowired
+    private PushNotificationService notificationService;
 
     @Override
     public NewsItem save(NewsItem newsItem) {
@@ -136,7 +133,12 @@ public class NewsItemServiceImpl implements NewsItemService {
 
         newsItem.setLocationInfo(newsItemLocation);
 
-        return newsItemRepository.save(newsItem);
+        NewsItem savedNewsItem = newsItemRepository.save(newsItem);
+
+        // Sending Push Notification
+        sendFCMNotification(savedNewsItem);
+
+        return savedNewsItem;
     }
 
     @Transactional
@@ -199,7 +201,12 @@ public class NewsItemServiceImpl implements NewsItemService {
 
         newsItem.setLocationInfo(newsItemLocation);
 
-        return newsItemRepository.save(newsItem);
+        NewsItem savedNewsItem = newsItemRepository.save(newsItem);
+
+        // Sending Push Notification
+        sendFCMNotification(savedNewsItem);
+
+        return savedNewsItem;
     }
 
     @Transactional
@@ -338,4 +345,24 @@ public class NewsItemServiceImpl implements NewsItemService {
         return new ScrollResponse(scrollBuilder.toString());
 
     }
+
+    private void sendFCMNotification(NewsItem newsItem){
+
+        PushNotificationRequest notificationRequest = new PushNotificationRequest();
+        notificationRequest.setTopic(fcmNewsTopicName);
+        notificationRequest.setTitle(newsItem.getHeadLine());
+        notificationRequest.setMessage(newsItem.getDescription());
+
+        Map<String,String> data = new HashMap<>();
+        data.put("newsItemId",String.valueOf(newsItem.getId()));
+        data.put("contentType",newsItem.getContentType().name());
+        data.put("imageUrl",newsItem.getImageUrl());
+        data.put("thumbnailImageUrl",newsItem.getVideo().getThumbnailImageUrl());
+        data.put("videoUrl",newsItem.getVideo().getVideoUrl());
+        data.put("videoType",newsItem.getVideo().getVideoType().name());
+        data.put("userId",String.valueOf(newsItem.getUser().getId()));
+
+        notificationService.sendPushNotification(data,notificationRequest);
+    }
+
 }

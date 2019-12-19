@@ -1,15 +1,16 @@
 package com.ens.service.fcm;
 
 import com.ens.domain.payload.fcm.PushNotificationRequest;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 @Service
 @Slf4j
@@ -26,7 +27,7 @@ public class PushNotificationService {
         try {
             fcmService.sendMessageWithoutData(getSamplePushNotificationRequest());
         } catch (InterruptedException | ExecutionException e) {
-            log.error(e.getMessage());
+            log.error("{}",e.getMessage());
         }
     }
 
@@ -34,7 +35,7 @@ public class PushNotificationService {
         try {
             fcmService.sendMessage(getSamplePayloadData(), request);
         } catch (InterruptedException | ExecutionException e) {
-            log.error(e.getMessage());
+            log.error("{}",e.getMessage());
         }
     }
 
@@ -42,7 +43,7 @@ public class PushNotificationService {
         try {
             fcmService.sendMessageWithoutData(request);
         } catch (InterruptedException | ExecutionException e) {
-            log.error(e.getMessage());
+            log.error("{}",e.getMessage());
         }
     }
 
@@ -51,7 +52,7 @@ public class PushNotificationService {
         try {
             fcmService.sendMessageToToken(request);
         } catch (InterruptedException | ExecutionException e) {
-            log.error(e.getMessage());
+            log.error("{}",e.getMessage());
         }
     }
 
@@ -69,5 +70,13 @@ public class PushNotificationService {
                 defaults.get("message"),
                 defaults.get("topic"));
         return request;
+    }
+
+    public void sendPushNotification(Map<String,String> data,PushNotificationRequest request) {
+        try {
+            fcmService.sendMessage(data, request);
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("{}",e.getMessage());
+        }
     }
 }
