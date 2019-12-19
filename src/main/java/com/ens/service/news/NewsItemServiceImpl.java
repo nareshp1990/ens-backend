@@ -135,8 +135,12 @@ public class NewsItemServiceImpl implements NewsItemService {
 
         NewsItem savedNewsItem = newsItemRepository.save(newsItem);
 
-        // Sending Push Notification
-        sendFCMNotification(savedNewsItem);
+        try {
+            // Sending Push Notification
+            sendFCMNotification(savedNewsItem);
+        }catch (Exception ex){
+            log.error("{}",ex);
+        }
 
         return savedNewsItem;
     }
@@ -203,8 +207,12 @@ public class NewsItemServiceImpl implements NewsItemService {
 
         NewsItem savedNewsItem = newsItemRepository.save(newsItem);
 
-        // Sending Push Notification
-        sendFCMNotification(savedNewsItem);
+        try {
+            // Sending Push Notification
+            sendFCMNotification(savedNewsItem);
+        }catch (Exception ex){
+            log.error("{}",ex);
+        }
 
         return savedNewsItem;
     }
