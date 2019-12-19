@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ValidationService validationService;
 
-    @Value("${app.fcm.news.topic.name:news}")
+    @Value("${app.fcm.news.notification.topic.name:news}")
     private String fcmNewsTopicName;
 
     @Override

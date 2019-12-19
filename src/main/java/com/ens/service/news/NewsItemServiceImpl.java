@@ -53,8 +53,14 @@ public class NewsItemServiceImpl implements NewsItemService {
     @Value("${app.default.scroll.text}")
     private String defaultScrollText;
 
-    @Value("${app.fcm.news.topic.name:news}")
+    @Value("${app.fcm.news.notification.topic.name:news}")
     private String fcmNewsTopicName;
+
+    @Value("${app.notification.icon.url}")
+    private String appIconUrl;
+
+    @Value("${app.name}")
+    private String appName;
 
     @Autowired
     private PushNotificationService notificationService;
@@ -369,6 +375,10 @@ public class NewsItemServiceImpl implements NewsItemService {
         data.put("videoUrl",newsItem.getVideo().getVideoUrl());
         data.put("videoType",newsItem.getVideo().getVideoType().name());
         data.put("userId",String.valueOf(newsItem.getUser().getId()));
+        data.put("smallIcon",appIconUrl);
+        data.put("appName",appName);
+        data.put("timeStamp",String.valueOf(newsItem.getCreatedAt()));
+        data.put("largeIcon",newsItem.getUser().getProfileImageUrl());
 
         notificationService.sendPushNotification(data,notificationRequest);
     }
