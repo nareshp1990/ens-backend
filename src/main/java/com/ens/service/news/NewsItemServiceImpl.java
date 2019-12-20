@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -387,14 +388,16 @@ public class NewsItemServiceImpl implements NewsItemService {
         Map<String,String> data = new HashMap<>();
         data.put("title",newsItem.getHeadLine());
         data.put("content",newsItem.getDescription());
-        //data.put("newsItemId",String.valueOf(newsItem.getId()));
-//        data.put("contentType",newsItem.getContentType().name());
-        data.put("imageUrl",newsItem.getImageUrl());
-//        data.put("smallIcon",appIconUrl);
-//        data.put("appName",appName);
-//        data.put("timeStamp",String.valueOf(newsItem.getCreatedAt()));
-//        data.put("userId",String.valueOf(newsItem.getUser().getId()));
-//        data.put("largeIcon",newsItem.getUser().getProfileImageUrl());
+        data.put("newsItemId",String.valueOf(newsItem.getId()));
+        data.put("contentType",newsItem.getContentType().name());
+        if (StringUtils.isNotEmpty(newsItem.getImageUrl())) {
+            data.put("imageUrl", newsItem.getImageUrl());
+        }
+        data.put("smallIcon",appIconUrl);
+        data.put("appName",appName);
+        data.put("timeStamp",String.valueOf(newsItem.getCreatedAt()));
+        data.put("userId",String.valueOf(newsItem.getUser().getId()));
+        data.put("largeIcon",newsItem.getUser().getProfileImageUrl());
         if (newsItem.getVideo()!=null) {
             data.put("thumbnailImageUrl", newsItem.getVideo().getThumbnailImageUrl());
             data.put("videoUrl", newsItem.getVideo().getVideoUrl());
@@ -404,8 +407,7 @@ public class NewsItemServiceImpl implements NewsItemService {
         Message message = Message.builder()
                 .setTopic(fcmNewsTopicName)
                 .putAllData(data)
-                .setNotification(
-                        new Notification(newsItem.getHeadLine(), newsItem.getDescription(), ""))
+                .setNotification(new Notification(newsItem.getHeadLine(), "", StringUtils.isNotEmpty(newsItem.getImageUrl())?newsItem.getImageUrl():newsItem.getVideo().getThumbnailImageUrl()))
                 .build();
 
         try {
