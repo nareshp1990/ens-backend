@@ -7,7 +7,6 @@ import java.io.IOException;
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +20,15 @@ public class FCMInitializer {
     @PostConstruct
     public void initialize() {
         try {
+
+            log.info("### Reading firebase configuration file from : {}",firebaseConfigPath);
+
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(new FileSystemResource(firebaseConfigPath).getInputStream())).build();
+
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
-                log.info("Firebase application has been initialized");
+                log.info("### Firebase application has been initialized");
             }
         } catch (IOException e) {
             log.error("{}",e.getMessage());

@@ -1,5 +1,6 @@
 package com.ens.api;
 
+import com.ens.domain.entity.user.User;
 import com.ens.domain.payload.user.UserResponse;
 import com.ens.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,7 @@ public class AuthApiController {
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<UserResponse> login(@RequestParam String mobileNumber, @RequestParam String password){
+    public ResponseEntity<User> login(@RequestParam String mobileNumber, @RequestParam String password){
         return ResponseEntity.ok(userService.login(mobileNumber,password));
     }
 

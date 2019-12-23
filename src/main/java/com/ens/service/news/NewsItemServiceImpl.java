@@ -27,11 +27,7 @@ import com.ens.repo.news.UserCommentRepository;
 import com.ens.repo.news.UserLikeRepository;
 import com.ens.repo.news.UserUnLikeRepository;
 import com.ens.service.ValidationService;
-import com.ens.service.fcm.PushNotificationService;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingException;
-import com.google.firebase.messaging.Message;
-import com.google.firebase.messaging.Notification;
+import com.ens.service.fcm.NotificationService;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -81,7 +77,7 @@ public class NewsItemServiceImpl implements NewsItemService {
     private String appName;
 
     @Autowired
-    private PushNotificationService notificationService;
+    private NotificationService notificationService;
 
     @Override
     public NewsItem save(NewsItem newsItem) {
@@ -366,16 +362,14 @@ public class NewsItemServiceImpl implements NewsItemService {
         Page<NewsItemResponse> newsItems = newsItemRepository.getAllNewsItems(ContentType.SCROLL.name(),pageable);
 
         if (newsItems == null || newsItems.isEmpty()) {
-            return new ScrollResponse(defaultScrollText);
+            return new ScrollResponse("");
         }
 
         StringBuilder scrollBuilder = new StringBuilder();
 
         newsItems.get().forEach(newsItem -> scrollBuilder.append(newsItem.getHeadLine()).append(" || "));
 
-//        return scrollBuilder.append(defaultScrollText).toString();
         return new ScrollResponse(scrollBuilder.toString());
-
     }
 
     private void sendFCMNotification(NewsItem newsItem){
@@ -385,38 +379,26 @@ public class NewsItemServiceImpl implements NewsItemService {
         notificationRequest.setTitle(newsItem.getHeadLine());
         notificationRequest.setMessage(newsItem.getDescription());
 
+        if (StringUtils.isNotEmpty(newsItem.getImageUrl())) {
+            notificationRequest.setImageUrl(newsItem.getImageUrl());
+        }else if (newsItem.getVideo() != null && StringUtils.isNotEmpty(newsItem.getVideo().getThumbnailImageUrl())){
+            notificationRequest.setImageUrl(newsItem.getVideo().getThumbnailImageUrl());
+        }
+
         Map<String,String> data = new HashMap<>();
         data.put("title",newsItem.getHeadLine());
         data.put("content",newsItem.getDescription());
         data.put("newsItemId",String.valueOf(newsItem.getId()));
-        data.put("contentType",newsItem.getContentType().name());
         if (StringUtils.isNotEmpty(newsItem.getImageUrl())) {
             data.put("imageUrl", newsItem.getImageUrl());
         }
-        data.put("smallIcon",appIconUrl);
-        data.put("appName",appName);
-        data.put("timeStamp",String.valueOf(newsItem.getCreatedAt()));
         data.put("userId",String.valueOf(newsItem.getUser().getId()));
-        data.put("largeIcon",newsItem.getUser().getProfileImageUrl());
-        if (newsItem.getVideo()!=null) {
-            data.put("thumbnailImageUrl", newsItem.getVideo().getThumbnailImageUrl());
-            data.put("videoUrl", newsItem.getVideo().getVideoUrl());
-            data.put("videoType", newsItem.getVideo().getVideoType().name());
-        }
+        data.put("contentType",newsItem.getContentType().name());
 
-        Message message = Message.builder()
-                .setTopic(fcmNewsTopicName)
-                .putAllData(data)
-                .setNotification(new Notification(newsItem.getHeadLine(), "", StringUtils.isNotEmpty(newsItem.getImageUrl())?newsItem.getImageUrl():newsItem.getVideo().getThumbnailImageUrl()))
-                .build();
+        notificationRequest.setData(data);
 
-        try {
-            String response = FirebaseMessaging.getInstance().send(message);
-            log.debug("### Firebase Response : {}",response);
-        } catch (FirebaseMessagingException e) {
-            e.printStackTrace();
-            log.error("{}",e);
-        }
+        notificationService.sendNotification(notificationRequest);
+
     }
 
 }

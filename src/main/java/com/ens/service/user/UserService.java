@@ -20,6 +20,6 @@ public interface UserService extends IService<User> {
 
     User updateUserFCMKey(Long userId, String fcmKey);
 
-    UserResponse login(String mobileNumber, String password);
+    User login(String mobileNumber, String password);
 
 }

@@ -1,0 +1,45 @@
+# Http-Method
+POST
+
+# API URL : /v1/api/notifications
+http://localhost:9191/v1/api/notifications
+
+# Http Request Headers
+@Content-Type: application/json
+
+# Request Body
+{
+  "title": "అల్లూరి చరిత్ర పరిశోధకులు బాలు",
+  "message": "అమెరికా తానామహాసభల్లో విప్లవ వీరుడు అల్లూరి సీతారామరాజు ప్రపంచ చరిత్రను తెలియజేసేందకు ఏర్పాట్లు జరుగుతున్నాయని అల్లూరి యువజన సంఘం జాతీయ కార్యవర్గ సభ్యులు, అల్లూరి చరిత్రపరిశోధకులు ఈఎన్ఎస్ బాలు తెలియజేశారు. విశాఖలో ఆయన మీడియాతో మాట్లాడుతూ, అల్లూరి సంచరించిన ప్రదేశాలతో కూడిన",
+  "imageUrl": "https://i1.wp.com/www.eerojunews.net/wp-content/uploads/2019/11/IMG_20170414_103636.jpg",
+  "topic": "news",
+  "token": "",
+  "data": {
+    "title" : "అల్లూరి చరిత్ర పరిశోధకులు బాలు",
+    "content" : "అమెరికా తానామహాసభల్లో విప్లవ వీరుడు అల్లూరి సీతారామరాజు ప్రపంచ చరిత్రను తెలియజేసేందకు ఏర్పాట్లు జరుగుతున్నాయని అల్లూరి యువజన సంఘం జాతీయ కార్యవర్గ సభ్యులు, అల్లూరి చరిత్రపరిశోధకులు ఈఎన్ఎస్ బాలు తెలియజేశారు. విశాఖలో ఆయన మీడియాతో మాట్లాడుతూ, అల్లూరి సంచరించిన ప్రదేశాలతో కూడిన",
+    "newsItemId" : "1",
+    "imageUrl" : "https://i1.wp.com/www.eerojunews.net/wp-content/uploads/2019/11/IMG_20170414_103636.jpg",
+    "userId": "1",
+    "contentType": "IMAGE"
+  }
+}
+%%%
+
+# Duration: 1430 ms
+# URL: http://localhost:9191/v1/api/notifications
+
+# HTTP/1.1 200
+
+@Vary: Origin
+@Vary: Access-Control-Request-Method
+@Vary: Access-Control-Request-Headers
+@Content-Type: application/json
+@Transfer-Encoding: chunked
+@Date: Sun, 22 Dec 2019 14:36:59 GMT
+@Keep-Alive: timeout=60
+@Connection: keep-alive
+
+{
+  "success": true,
+  "message": "Notification sent successfully"
+}

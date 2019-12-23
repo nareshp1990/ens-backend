@@ -21,15 +21,11 @@ public class UserRequest implements Serializable{
     private String email;
     @NotBlank
     private String mobileNumber;
-    @NotBlank
     private String profileImageUrl;
     private String fcmRegistrationKey;
     @NotBlank
     private String password;
-    @NotNull
-    @Valid
     private Gender gender;
-    @Valid
     private LocalDate dateOfBirth;
 
     private Long countryId;

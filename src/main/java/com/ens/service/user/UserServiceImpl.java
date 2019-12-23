@@ -131,25 +131,10 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(readOnly = true)
     @Override
-    public UserResponse login(String mobileNumber, String password) {
+    public User login(String mobileNumber, String password) {
 
-        User user = userRepository.findByMobileNumberAndPassword(mobileNumber, password).orElseThrow(() -> new AuthException("UserId or Password incorrect"));
+        return userRepository.findByMobileNumberAndPassword(mobileNumber, password).orElseThrow(() -> new AuthException("UserId or Password incorrect"));
 
-        UserResponse userResponse = new UserResponse();
-        userResponse.setId(user.getId());
-        userResponse.setUserName(user.getUserName());
-        userResponse.setEmail(user.getEmail());
-        userResponse.setMobileNumber(user.getMobileNumber());
-        userResponse.setProfileImageUrl(user.getProfileImageUrl());
-        userResponse.setFcmRegistrationKey(user.getFcmRegistrationKey());
-        userResponse.setGender(user.getUserProfile().getGender());
-        userResponse.setDateOfBirth(user.getUserProfile().getDateOfBirth());
-        userResponse.setCountry(user.getUserProfile().getCountry());
-        userResponse.setState(user.getUserProfile().getState());
-        userResponse.setDistrict(user.getUserProfile().getDistrict());
-        userResponse.setArea(user.getUserProfile().getArea());
-
-        return userResponse;
     }
 
 
