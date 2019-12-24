@@ -21,6 +21,7 @@ import com.ens.domain.payload.fcm.PushNotificationRequest;
 import com.ens.domain.payload.news.NewsItemRequest;
 import com.ens.domain.payload.news.ScrollResponse;
 import com.ens.domain.payload.news.VideoRequest;
+import com.ens.exception.ResourceNotFoundException;
 import com.ens.repo.news.NewsItemRepository;
 import com.ens.repo.news.NewsItemSocialShareRepository;
 import com.ens.repo.news.UserCommentRepository;
@@ -28,9 +29,12 @@ import com.ens.repo.news.UserLikeRepository;
 import com.ens.repo.news.UserUnLikeRepository;
 import com.ens.service.ValidationService;
 import com.ens.service.fcm.NotificationService;
+import com.google.common.collect.Sets;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -336,7 +340,7 @@ public class NewsItemServiceImpl implements NewsItemService {
 
     @Transactional(readOnly = true)
     @Override
-    public PagedResponse<NewsItemResponse> getNewsItems(Long userId, ContentType contentType, int page, int size) {
+    public PagedResponse<NewsItemResponse> getNewsItems(Long userId, Set<ContentType> contentTypes, Long newsItemId, int page, int size) {
 
         validationService.validatePageNumberAndSize(page,size);
 
@@ -344,7 +348,10 @@ public class NewsItemServiceImpl implements NewsItemService {
 
         Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "created_at");
 
-        Page<NewsItemResponse> newsItems = newsItemRepository.getAllNewsItems(contentType.name(),pageable);
+        Set<String> names = new HashSet<>();
+        contentTypes.stream().forEach(contentType -> names.add(contentType.name()));
+
+        Page<NewsItemResponse> newsItems = newsItemRepository.getAllNewsItems(names,newsItemId,pageable);
 
         return new PagedResponse<>(newsItems.getContent(), newsItems.getNumber(),
                 newsItems.getSize(), newsItems.getTotalElements(), newsItems.getTotalPages(), newsItems.isLast());
@@ -359,7 +366,7 @@ public class NewsItemServiceImpl implements NewsItemService {
 
         Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "created_at");
 
-        Page<NewsItemResponse> newsItems = newsItemRepository.getAllNewsItems(ContentType.SCROLL.name(),pageable);
+        Page<NewsItemResponse> newsItems = newsItemRepository.getAllNewsItems(Sets.newHashSet(ContentType.SCROLL.name()),0,pageable);
 
         if (newsItems == null || newsItems.isEmpty()) {
             return new ScrollResponse("");
@@ -370,6 +377,11 @@ public class NewsItemServiceImpl implements NewsItemService {
         newsItems.get().forEach(newsItem -> scrollBuilder.append(newsItem.getHeadLine()).append(" || "));
 
         return new ScrollResponse(scrollBuilder.toString());
+    }
+
+    @Override
+    public NewsItemResponse getNewsItemById(Long userId, Long newsItemId) {
+        return newsItemRepository.getNewsItemById(newsItemId).orElseThrow(() -> new ResourceNotFoundException("News","id",newsItemId));
     }
 
     private void sendFCMNotification(NewsItem newsItem){

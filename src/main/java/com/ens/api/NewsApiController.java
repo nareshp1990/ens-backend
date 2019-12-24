@@ -15,6 +15,7 @@ import com.ens.util.AppConstants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponses;
+import java.util.Set;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,10 +74,12 @@ public class NewsApiController {
     @ApiOperation(value = "fetch all news items", tags = {"news"}, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value = {@io.swagger.annotations.ApiResponse(code = 200, message = "api response", response = NewsItemResponse.class)})
     @GetMapping("/{userId}")
-    public PagedResponse<NewsItemResponse> getAllNewsItems(@PathVariable Long userId,@RequestParam ContentType contentType,
+    public PagedResponse<NewsItemResponse> getAllNewsItems(@PathVariable Long userId,
+            @RequestParam Set<ContentType> contentTypes,
+            @RequestParam Long newsItemId,
             @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
             @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size){
-        return newsItemService.getNewsItems(userId, contentType, page, size);
+        return newsItemService.getNewsItems(userId, contentTypes, newsItemId, page, size);
     }
 
     @ApiOperation(value = "delete news", tags = {"news"}, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -91,6 +94,20 @@ public class NewsApiController {
             @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
             @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size){
         return newsItemService.getNewsScrollText(userId,page,size);
+    }
+
+    @ApiOperation(value = "get user actions on news", tags = {"news"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses(value = {@io.swagger.annotations.ApiResponse(code = 200, message = "api response", response = NewsItemActionResponse.class)})
+    @GetMapping("/{userId}/{newsItemId}/action")
+    public NewsItemActionResponse getNewsItemUserActions(@PathVariable Long userId, @PathVariable Long newsItemId) {
+        return newsItemService.getNewsItemAction(newsItemId);
+    }
+
+    @ApiOperation(value = "fetch news item by id", tags = {"news"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses(value = {@io.swagger.annotations.ApiResponse(code = 200, message = "api response", response = NewsItemResponse.class)})
+    @GetMapping("/{userId}/{newsItemId}")
+    public NewsItemResponse getNewsItemById(@PathVariable Long userId, @PathVariable Long newsItemId){
+        return newsItemService.getNewsItemById(userId, newsItemId);
     }
 
 }
