@@ -389,7 +389,7 @@ public class NewsItemServiceImpl implements NewsItemService {
         PushNotificationRequest notificationRequest = new PushNotificationRequest();
         notificationRequest.setTopic(fcmNewsTopicName);
         notificationRequest.setTitle(newsItem.getHeadLine());
-        notificationRequest.setMessage(newsItem.getDescription());
+        notificationRequest.setMessage(newsItem.getHeadLine());
 
         if (StringUtils.isNotEmpty(newsItem.getImageUrl())) {
             notificationRequest.setImageUrl(newsItem.getImageUrl());
@@ -399,10 +399,12 @@ public class NewsItemServiceImpl implements NewsItemService {
 
         Map<String,String> data = new HashMap<>();
         data.put("title",newsItem.getHeadLine());
-        data.put("content",newsItem.getDescription());
+        data.put("content",newsItem.getHeadLine());
         data.put("newsItemId",String.valueOf(newsItem.getId()));
         if (StringUtils.isNotEmpty(newsItem.getImageUrl())) {
             data.put("imageUrl", newsItem.getImageUrl());
+        }else if (StringUtils.isNotEmpty(newsItem.getVideo().getThumbnailImageUrl())){
+            data.put("imageUrl", newsItem.getVideo().getThumbnailImageUrl());
         }
         data.put("userId",String.valueOf(newsItem.getUser().getId()));
         data.put("contentType",newsItem.getContentType().name());
