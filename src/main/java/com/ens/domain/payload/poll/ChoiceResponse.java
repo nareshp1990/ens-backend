@@ -14,5 +14,6 @@ public class ChoiceResponse implements Serializable{
     private Long id;
     private String text;
     private long voteCount;
+    private double pollPercentage;
 
 }

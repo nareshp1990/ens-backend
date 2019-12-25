@@ -10,7 +10,9 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ModelMapper {
 
@@ -29,7 +31,15 @@ public class ModelMapper {
             choiceResponse.setText(choice.getText());
 
             if(choiceVotesMap.containsKey(choice.getId())) {
+
                 choiceResponse.setVoteCount(choiceVotesMap.get(choice.getId()));
+
+                long totalVotesCountSum = choiceVotesMap.values().stream().mapToLong(e -> e.longValue()).sum();
+
+                double pollPercentage = (choiceResponse.getVoteCount() * 100.0) / totalVotesCountSum;
+
+                choiceResponse.setPollPercentage(pollPercentage);
+
             } else {
                 choiceResponse.setVoteCount(0);
             }
