@@ -7,6 +7,7 @@ import com.ens.domain.payload.poll.PollResponse;
 import com.ens.domain.payload.poll.UserSummary;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -19,7 +20,7 @@ public class ModelMapper {
         pollResponse.setQuestion(poll.getQuestion());
         pollResponse.setCreationDateTime(poll.getCreatedAt());
         pollResponse.setExpirationDateTime(poll.getExpirationDateTime());
-        Instant now = Instant.now();
+        LocalDateTime now = LocalDateTime.now();
         pollResponse.setIsExpired(poll.getExpirationDateTime().isBefore(now));
 
         List<ChoiceResponse> choiceResponses = poll.getChoices().stream().map(choice -> {

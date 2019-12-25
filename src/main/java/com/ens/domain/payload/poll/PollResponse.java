@@ -20,7 +20,7 @@ public class PollResponse implements Serializable{
     private List<ChoiceResponse> choices;
     private UserSummary createdBy;
     private LocalDateTime creationDateTime;
-    private Instant expirationDateTime;
+    private LocalDateTime expirationDateTime;
     private Boolean isExpired;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

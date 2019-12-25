@@ -16,6 +16,8 @@ import com.ens.repo.poll.VoteRepository;
 import com.ens.repo.user.UserRepository;
 import com.ens.service.ValidationService;
 import com.ens.util.ModelMapper;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -129,8 +131,8 @@ public class PollServiceImpl implements PollService {
         Instant now = Instant.now();
         Instant expirationDateTime = now.plus(Duration.ofDays(pollRequest.getPollLength().getDays()))
                 .plus(Duration.ofHours(pollRequest.getPollLength().getHours()));
-
-        poll.setExpirationDateTime(expirationDateTime);
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(expirationDateTime, ZoneOffset.UTC);
+        poll.setExpirationDateTime(localDateTime);
 
         return pollRepository.save(poll);
     }
@@ -169,7 +171,7 @@ public class PollServiceImpl implements PollService {
         Poll poll = pollRepository.findById(pollId)
                 .orElseThrow(() -> new ResourceNotFoundException("Poll", "id", pollId));
 
-        if(poll.getExpirationDateTime().isBefore(Instant.now())) {
+        if(poll.getExpirationDateTime().isBefore(LocalDateTime.now())) {
             throw new BadRequestException("Sorry! This Poll has already expired");
         }
 

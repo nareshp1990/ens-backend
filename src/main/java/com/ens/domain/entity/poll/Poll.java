@@ -4,6 +4,7 @@ import com.ens.domain.entity.audit.UserDateAudit;
 import com.ens.domain.entity.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.*;
@@ -33,7 +34,7 @@ public class Poll extends UserDateAudit {
 
     @NotNull
     @Column(name = "expiration_date_time",nullable = false)
-    private Instant expirationDateTime;
+    private LocalDateTime expirationDateTime;
 
     @OneToMany(mappedBy = "poll", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @Size(min = 2, max = 6)
