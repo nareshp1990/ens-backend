@@ -25,6 +25,9 @@ public class ModelMapper {
         LocalDateTime now = LocalDateTime.now();
         pollResponse.setIsExpired(poll.getExpirationDateTime().isBefore(now));
 
+        List<Long> choiceIds = poll.getChoices().stream().map(e -> e.getId())
+                .collect(Collectors.toList());
+
         List<ChoiceResponse> choiceResponses = poll.getChoices().stream().map(choice -> {
             ChoiceResponse choiceResponse = new ChoiceResponse();
             choiceResponse.setId(choice.getId());
@@ -34,7 +37,10 @@ public class ModelMapper {
 
                 choiceResponse.setVoteCount(choiceVotesMap.get(choice.getId()));
 
-                long totalVotesCountSum = choiceVotesMap.values().stream().mapToLong(e -> e.longValue()).sum();
+//                long totalVotesCountSum = choiceVotesMap.values().stream().mapToLong(e -> e.longValue()).sum();
+                long totalVotesCountSum = choiceVotesMap.entrySet().stream()
+                    .filter(e -> choiceIds.contains(e.getKey()))
+                    .mapToLong(Map.Entry::getValue).sum();
 
                 double pollPercentage = (choiceResponse.getVoteCount() * 100.0) / totalVotesCountSum;
 
