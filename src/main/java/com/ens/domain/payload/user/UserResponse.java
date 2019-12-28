@@ -5,6 +5,7 @@ import com.ens.domain.entity.location.Country;
 import com.ens.domain.entity.location.District;
 import com.ens.domain.entity.location.State;
 import com.ens.domain.entity.user.Gender;
+import com.ens.domain.entity.user.UserType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class UserResponse implements Serializable {
     private String mobileNumber;
     private String profileImageUrl;
     private String fcmRegistrationKey;
+    private UserType userType;
 
     private Gender gender;
     @JsonFormat(pattern = "yyyy-MM-dd")

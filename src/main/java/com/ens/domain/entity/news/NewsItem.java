@@ -85,4 +85,7 @@ public class NewsItem extends DateAudit {
     @JsonIgnore
     private User user;
 
+    @Column(name = "visible",nullable = true)
+    private Boolean visible;
+
 }

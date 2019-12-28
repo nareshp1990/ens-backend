@@ -25,7 +25,7 @@ public interface NewsItemService extends IService<NewsItem> {
 
     NewsItemActionResponse getNewsItemAction(Long newsItemId);
 
-    PagedResponse<NewsItemResponse> getNewsItems(Long userId, Set<ContentType> contentTypes, Long newsItemId, int page, int size);
+    PagedResponse<NewsItemResponse> getNewsItems(Long userId, Set<ContentType> contentTypes, Long newsItemId, Boolean visible, int page, int size);
 
     ScrollResponse getNewsScrollText(Long userId, int page, int size);
 

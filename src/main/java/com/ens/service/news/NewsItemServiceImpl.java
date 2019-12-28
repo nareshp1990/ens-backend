@@ -16,6 +16,7 @@ import com.ens.domain.entity.news.UserLike;
 import com.ens.domain.entity.news.UserUnLike;
 import com.ens.domain.entity.news.Video;
 import com.ens.domain.entity.user.User;
+import com.ens.domain.entity.user.UserType;
 import com.ens.domain.payload.PagedResponse;
 import com.ens.domain.payload.fcm.PushNotificationRequest;
 import com.ens.domain.payload.news.NewsItemRequest;
@@ -146,6 +147,10 @@ public class NewsItemServiceImpl implements NewsItemService {
         newsItem.setNewsType(newsRequest.getNewsType());
         newsItem.setUser(user);
 
+        if (user.getUserType() != null && UserType.ADMIN.equals(user.getUserType()) ) {
+            newsItem.setVisible(true);
+        }
+
         NewsItemLocation newsItemLocation = new NewsItemLocation();
         newsItemLocation.setArea(area);
         newsItemLocation.setDistrict(district);
@@ -205,6 +210,10 @@ public class NewsItemServiceImpl implements NewsItemService {
         newsItem.setContentType(videoRequest.getContentType());
         newsItem.setNewsType(videoRequest.getNewsType());
         newsItem.setUser(user);
+
+        if (user.getUserType() != null && UserType.ADMIN.equals(user.getUserType()) ) {
+            newsItem.setVisible(true);
+        }
 
         Video video = new Video();
         video.setThumbnailImageUrl(videoRequest.getThumbnailImageUrl());
@@ -340,7 +349,7 @@ public class NewsItemServiceImpl implements NewsItemService {
 
     @Transactional(readOnly = true)
     @Override
-    public PagedResponse<NewsItemResponse> getNewsItems(Long userId, Set<ContentType> contentTypes, Long newsItemId, int page, int size) {
+    public PagedResponse<NewsItemResponse> getNewsItems(Long userId, Set<ContentType> contentTypes, Long newsItemId, Boolean visible, int page, int size) {
 
         validationService.validatePageNumberAndSize(page,size);
 
@@ -351,7 +360,7 @@ public class NewsItemServiceImpl implements NewsItemService {
         Set<String> names = new HashSet<>();
         contentTypes.stream().forEach(contentType -> names.add(contentType.name()));
 
-        Page<NewsItemResponse> newsItems = newsItemRepository.getAllNewsItems(names,newsItemId,pageable);
+        Page<NewsItemResponse> newsItems = newsItemRepository.getAllNewsItems(names,newsItemId,visible,pageable);
 
         return new PagedResponse<>(newsItems.getContent(), newsItems.getNumber(),
                 newsItems.getSize(), newsItems.getTotalElements(), newsItems.getTotalPages(), newsItems.isLast());
@@ -366,7 +375,7 @@ public class NewsItemServiceImpl implements NewsItemService {
 
         Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "created_at");
 
-        Page<NewsItemResponse> newsItems = newsItemRepository.getAllNewsItems(Sets.newHashSet(ContentType.SCROLL.name()),0,pageable);
+        Page<NewsItemResponse> newsItems = newsItemRepository.getAllNewsItems(Sets.newHashSet(ContentType.SCROLL.name()),0,true,pageable);
 
         if (newsItems == null || newsItems.isEmpty()) {
             return new ScrollResponse("");

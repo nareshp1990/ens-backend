@@ -148,6 +148,7 @@ public class UserServiceImpl implements UserService {
         user.setFcmRegistrationKey(userRequest.getFcmRegistrationKey());
         user.setPassword(userRequest.getPassword());
         user.setProfileImageUrl(userRequest.getProfileImageUrl());
+        user.setUserType(userRequest.getUserType());
 
         UserProfile userProfile = new UserProfile();
         userProfile.setGender(userRequest.getGender());

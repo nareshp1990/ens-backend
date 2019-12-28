@@ -64,4 +64,9 @@ public class User extends DateAudit {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private UserProfile userProfile;
 
+    @JsonView(Public.class)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "user_type",nullable = true)
+    private UserType userType;
+
 }

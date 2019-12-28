@@ -38,7 +38,7 @@ public interface NewsItemRepository extends JpaRepository<NewsItem, Long>, NewsI
                     + "LEFT JOIN news_item_user_un_likes unl on unl.news_item_id = ni.id "
                     + "LEFT JOIN news_item_video v on v.news_item_id = ni.id "
                     + "LEFT JOIN user u on u.id = ni.user_id "
-                    + "WHERE ni.content_type IN :contentTypes AND ni.id != :newsItemId "
+                    + "WHERE ni.content_type IN :contentTypes AND ni.id != :newsItemId AND ni.visible = :visible "
                     + "GROUP BY ni.id ", nativeQuery = true,
             countQuery = "select count(ni.id) from news_item ni "
                     + "LEFT JOIN news_item_social_shares sh ON sh.news_item_id = ni.id "
@@ -47,9 +47,9 @@ public interface NewsItemRepository extends JpaRepository<NewsItem, Long>, NewsI
                     + "LEFT JOIN news_item_user_un_likes unl on unl.news_item_id = ni.id "
                     + "LEFT JOIN news_item_video v on v.news_item_id = ni.id "
                     + "LEFT JOIN user u on u.id = ni.user_id "
-                    + "WHERE ni.content_type IN :contentTypes AND ni.id != :newsItemId "
+                    + "WHERE ni.content_type IN :contentTypes AND ni.id != :newsItemId AND ni.visible = :visible "
                     + "GROUP BY ni.id ")
-    Page<NewsItemResponse> getAllNewsItems(@Param("contentTypes") Collection<String> contentTypes, @Param("newsItemId") long newsItemId, Pageable pageable);
+    Page<NewsItemResponse> getAllNewsItems(@Param("contentTypes") Collection<String> contentTypes, @Param("newsItemId") long newsItemId, @Param("visible") boolean visible,  Pageable pageable);
 
     @Query(value =
             "select ni.id newsItemId, ni.head_line headLine, ni.description description, ni.image_url imageUrl, ni.content_type contentType, "

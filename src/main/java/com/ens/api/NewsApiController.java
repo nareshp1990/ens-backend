@@ -77,9 +77,10 @@ public class NewsApiController {
     public PagedResponse<NewsItemResponse> getAllNewsItems(@PathVariable Long userId,
             @RequestParam Set<ContentType> contentTypes,
             @RequestParam Long newsItemId,
+            @RequestParam(value = "visible", defaultValue = "true") Boolean visible,
             @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
             @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size){
-        return newsItemService.getNewsItems(userId, contentTypes, newsItemId, page, size);
+        return newsItemService.getNewsItems(userId, contentTypes, newsItemId, visible, page, size);
     }
 
     @ApiOperation(value = "delete news", tags = {"news"}, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -1,6 +1,7 @@
 package com.ens.domain.payload.user;
 
 import com.ens.domain.entity.user.Gender;
+import com.ens.domain.entity.user.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,8 @@ public class UserRequest implements Serializable{
     private String password;
     private Gender gender;
     private LocalDate dateOfBirth;
+    @NotNull
+    private UserType userType;
 
     private Long countryId;
     private Long stateId;
