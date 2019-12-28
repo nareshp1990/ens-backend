@@ -22,6 +22,7 @@ import com.ens.domain.payload.fcm.PushNotificationRequest;
 import com.ens.domain.payload.news.NewsItemRequest;
 import com.ens.domain.payload.news.ScrollResponse;
 import com.ens.domain.payload.news.VideoRequest;
+import com.ens.exception.BadRequestException;
 import com.ens.exception.ResourceNotFoundException;
 import com.ens.repo.news.NewsItemRepository;
 import com.ens.repo.news.NewsItemSocialShareRepository;
@@ -149,6 +150,8 @@ public class NewsItemServiceImpl implements NewsItemService {
 
         if (user.getUserType() != null && UserType.ADMIN.equals(user.getUserType()) ) {
             newsItem.setVisible(true);
+        }else {
+            newsItem.setVisible(false);
         }
 
         NewsItemLocation newsItemLocation = new NewsItemLocation();
@@ -213,6 +216,8 @@ public class NewsItemServiceImpl implements NewsItemService {
 
         if (user.getUserType() != null && UserType.ADMIN.equals(user.getUserType()) ) {
             newsItem.setVisible(true);
+        }else {
+            newsItem.setVisible(false);
         }
 
         Video video = new Video();
@@ -391,6 +396,23 @@ public class NewsItemServiceImpl implements NewsItemService {
     @Override
     public NewsItemResponse getNewsItemById(Long userId, Long newsItemId) {
         return newsItemRepository.getNewsItemById(newsItemId).orElseThrow(() -> new ResourceNotFoundException("News","id",newsItemId));
+    }
+
+    @Transactional
+    @Override
+    public void approveNewsItem(Long userId, Long newsItemId) {
+
+        User user = validationService.validateUser(userId);
+
+        if (user == null || user.getUserType()==null || UserType.ADMIN != user.getUserType()){
+            throw  new BadRequestException("User UnAuthorized to Approve News");
+        }
+
+        NewsItem newsItem = validationService.validateNewsItem(newsItemId);
+
+        newsItem.setVisible(true);
+
+        newsItemRepository.save(newsItem);
     }
 
     private void sendFCMNotification(NewsItem newsItem){

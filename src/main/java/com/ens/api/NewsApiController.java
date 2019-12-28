@@ -111,4 +111,13 @@ public class NewsApiController {
         return newsItemService.getNewsItemById(userId, newsItemId);
     }
 
+    @ApiOperation(value = "approve news item", tags = {"news"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses(value = {@io.swagger.annotations.ApiResponse(code = 200, message = "api response", response = ApiResponse.class)})
+    @PostMapping("/{userId}/{newsItemId}/approve")
+    public ResponseEntity<ApiResponse> postComment(@PathVariable Long userId, @PathVariable Long newsItemId) {
+        newsItemService.approveNewsItem(userId,newsItemId);
+        return ResponseEntity.ok(new ApiResponse(true,"Updated Successfully"));
+    }
+
+
 }

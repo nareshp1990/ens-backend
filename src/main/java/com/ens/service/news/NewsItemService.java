@@ -30,4 +30,6 @@ public interface NewsItemService extends IService<NewsItem> {
     ScrollResponse getNewsScrollText(Long userId, int page, int size);
 
     NewsItemResponse getNewsItemById(Long userId, Long newsItemId);
+
+    void approveNewsItem(Long userId, Long newsItemId);
 }
