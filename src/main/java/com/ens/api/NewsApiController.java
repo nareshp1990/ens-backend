@@ -7,6 +7,7 @@ import com.ens.domain.entity.news.NewsItemActionResponse;
 import com.ens.domain.entity.news.NewsItemResponse;
 import com.ens.domain.payload.ApiResponse;
 import com.ens.domain.payload.PagedResponse;
+import com.ens.domain.payload.news.CommentResponse;
 import com.ens.domain.payload.news.NewsItemRequest;
 import com.ens.domain.payload.news.ScrollResponse;
 import com.ens.domain.payload.news.VideoRequest;
@@ -114,9 +115,18 @@ public class NewsApiController {
     @ApiOperation(value = "approve news item", tags = {"news"}, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value = {@io.swagger.annotations.ApiResponse(code = 200, message = "api response", response = ApiResponse.class)})
     @PostMapping("/{userId}/{newsItemId}/approve")
-    public ResponseEntity<ApiResponse> postComment(@PathVariable Long userId, @PathVariable Long newsItemId) {
+    public ResponseEntity<ApiResponse> approveNewsItem(@PathVariable Long userId, @PathVariable Long newsItemId) {
         newsItemService.approveNewsItem(userId,newsItemId);
         return ResponseEntity.ok(new ApiResponse(true,"Updated Successfully"));
+    }
+
+    @ApiOperation(value = "fetch all comments", tags = {"news"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses(value = {@io.swagger.annotations.ApiResponse(code = 200, message = "comment response", response = PagedResponse.class)})
+    @GetMapping("/{newsItemId}/comments")
+    public ResponseEntity<PagedResponse<CommentResponse>> getAllComments(@PathVariable Long newsItemId,
+            @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size){
+        return ResponseEntity.ok(newsItemService.getAllComments(newsItemId,page,size));
     }
 
 

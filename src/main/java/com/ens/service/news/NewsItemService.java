@@ -6,6 +6,7 @@ import com.ens.domain.entity.news.NewsItem;
 import com.ens.domain.entity.news.NewsItemActionResponse;
 import com.ens.domain.entity.news.NewsItemResponse;
 import com.ens.domain.payload.PagedResponse;
+import com.ens.domain.payload.news.CommentResponse;
 import com.ens.domain.payload.news.NewsItemRequest;
 import com.ens.domain.payload.news.ScrollResponse;
 import com.ens.domain.payload.news.VideoRequest;
@@ -32,4 +33,6 @@ public interface NewsItemService extends IService<NewsItem> {
     NewsItemResponse getNewsItemById(Long userId, Long newsItemId);
 
     void approveNewsItem(Long userId, Long newsItemId);
+
+    PagedResponse<CommentResponse> getAllComments(Long newsItemId, int page, int size);
 }

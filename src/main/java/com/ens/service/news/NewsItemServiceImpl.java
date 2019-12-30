@@ -19,6 +19,7 @@ import com.ens.domain.entity.user.User;
 import com.ens.domain.entity.user.UserType;
 import com.ens.domain.payload.PagedResponse;
 import com.ens.domain.payload.fcm.PushNotificationRequest;
+import com.ens.domain.payload.news.CommentResponse;
 import com.ens.domain.payload.news.NewsItemRequest;
 import com.ens.domain.payload.news.ScrollResponse;
 import com.ens.domain.payload.news.VideoRequest;
@@ -413,6 +414,21 @@ public class NewsItemServiceImpl implements NewsItemService {
         newsItem.setVisible(true);
 
         newsItemRepository.save(newsItem);
+    }
+
+    @Override
+    public PagedResponse<CommentResponse> getAllComments(Long newsItemId, int page, int size) {
+
+        validationService.validatePageNumberAndSize(page,size);
+
+        validationService.validateNewsItem(newsItemId);
+
+        Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "created_at");
+
+        Page<CommentResponse> allComments = userCommentRepository.getAllComments(newsItemId, pageable);
+
+        return new PagedResponse<>(allComments.getContent(), allComments.getNumber(),
+                allComments.getSize(), allComments.getTotalElements(), allComments.getTotalPages(), allComments.isLast());
     }
 
     private void sendFCMNotification(NewsItem newsItem){
